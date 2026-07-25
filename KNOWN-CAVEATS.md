@@ -1,7 +1,7 @@
 # Divi 5 Skill — Known Caveats & Limitations
 
 > The detailed source of truth behind each item is [`DIVI5-COVERAGE.md`](DIVI5-COVERAGE.md)
-> (the canonical coverage map, v0.6.0 / Divi 5.8.1).
+> (the canonical coverage map, v0.6.5 / Divi 5.9.0).
 
 These are the known limits of building Divi 5 with the skill (and, by extension, via Divi Connect). They
 fall into five buckets.
@@ -50,13 +50,17 @@ haven't been confirmed with a real render.
 
 ## 5. Version & scope
 
-- The skill is confirmed against **Divi 5.8.1** (v0.6.0). The 5.8.0 additions — Tooltip module + the
-  Advanced Text Styling batch (variable fonts, columns, drop caps, vertical text, line-wrap, hyphenation,
-  paragraph spacing, stroke position) — are recorded and render-confirmed. Treat any feature newer than
-  5.8.1 as unverified.
-- Still on the skill backlog: documenting **Canvas creation/usage** and the **native off-canvas menu pattern**
-  (see `BACKLOG.md` in the divi-connect repo).
+- The skill is confirmed against **Divi 5.9.0** (v0.6.5) and tracks the 5.8.x–5.9.x line. Treat any
+  feature newer than 5.9.0 as unverified.
+- **5.9.0** added no new modules (the same 84 as 5.8.x) and no schema breaks. Its one new authoring
+  surface is the **Grid Editor** — container-driven per-item placement via `gridOffsetRules` on a
+  `display:"grid"` container — which is recorded.
+- The **5.8.0** additions — Tooltip module + the Advanced Text Styling batch (variable fonts, columns,
+  drop caps, vertical text, line-wrap, hyphenation, paragraph spacing, stroke position) — are recorded
+  and render-confirmed.
+- For the per-feature state — what is render-confirmed, what is source-derived but untested, and what
+  does not work — read the coverage map linked at the top; it is the authoritative list.
 
 ---
 
-*Generated from DIVI5-COVERAGE.md (V0.6.2 · Builder Version 5.8.1). Keep both in sync when coverage changes.*
+*Generated from DIVI5-COVERAGE.md (v0.6.5 · Builder Version 5.9.0). Keep both in sync when coverage changes.*
