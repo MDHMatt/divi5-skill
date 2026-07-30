@@ -50,7 +50,7 @@ Built/confirmed against Divi **5.0.x**; this revision documents everything added
 7. **Column widths are set via `module.decoration.sizing.*.value.flexType`** using the `N_24` fraction system.
 8. **`flexColumnStructure` count must exactly match the number of `divi/column` children** in that row.
 9. **Heading `title.innerContent` is plain text only** — no HTML tags. The tag is set via `headingLevel`.
-10. **Rich text content** (text, blurb body, testimonial) must HTML-encode `<` as `\u003c` and `>` as `\u003e`.
+10. **Rich text content** (text, blurb body, testimonial) takes **raw HTML** — write `<p>`, `<strong>`, `<em>` as-is. **Never pre-escape it:** HTML entities (`&lt;p&gt;`) and JSON `\u003c` escapes both end up visible on the page. See §"HTML content is passed RAW -- never pre-escape it".
 11. **Never include `groupPreset`** — it references site-specific preset IDs.
 12. **Spacing is optional** — DIVI5 applies default padding when none is specified.
 13. **The `data` field value is a plain string** — not a nested object.
@@ -191,16 +191,17 @@ The JSON after a block name **is** the attributes object. Put the attribute grou
 
 ### `divi/text` content key is `content` — NOT `body`, NOT `text`  (BLANK-PAGE CAUSE #2)
 ❌ `"body": {"innerContent": {...}}` or `"text": {"innerContent": {...}}` -- text renders **EMPTY**. The key is literally `content`. (`body` only exists as the `bodyFont` *styling* group, e.g. `decoration.bodyFont.body.font`.)
-✅ `"content": {"innerContent": {"desktop": {"value": "\u003cp\u003eHello.\u003c/p\u003e"}}}`
+✅ `"content": {"innerContent": {"desktop": {"value": "<p>Hello.</p>"}}}`
 
-### HTML content MUST be unicode-escaped
-Any module holding HTML (`divi/text` content, blurb/CTA/testimonial/fullwidth-header body, etc.) must escape `<`/`>` as `\u003c`/`\u003e`. Raw tags break the block parser and leak as literal text on the page.
-❌ `"value": "<p>Hello.</p>"`  (raw `<p>` -- WRONG)
-✅ `"value": "\u003cp\u003eHello.\u003c/p\u003e"`
-
-### Escape non-ASCII characters in content (em-dash, smart quotes, emoji)
-Raw multibyte characters can be corrupted to `�` when content is sent through the claude.ai MCP connector. In any text `value`, prefer plain ASCII (`-`, straight quotes) **or** unicode-escape: em-dash `\u2014`, en-dash `\u2013`, curly quotes `\u2018`/`\u2019`/`\u201c`/`\u201d`. (Escapes decode correctly when WordPress parses the block.)
-
+### HTML content is passed RAW -- never pre-escape it
+Any module holding HTML (`divi/text` content, blurb/CTA/testimonial/fullwidth-header body, etc.) takes the tags as they are. The connector escapes them server-side on the way in, and says so in the response `warnings`.
+OK  `"value": "<p>Hello <strong>there</strong>.</p>"`
+NO  `"value": "\u003cp\u003eHello.\u003c/p\u003e"` -- the escape sequence survives the MCP transport VERBATIM, so the visitor literally reads `\u003cp\u003e` on the page.
+NO  `"value": "&lt;p&gt;Hello.&lt;/p&gt;"` -- HTML entities render as visible `<p>` text, not markup.
+This REVERSED in 1.7.5. Earlier guidance (including earlier versions of this Skill) said to escape `<`/`>`; following it now produces visibly broken pages.
+### Non-ASCII characters in content (em-dash, smart quotes, emoji)
+Raw multibyte characters can be corrupted to a replacement glyph when content is sent through the claude.ai MCP connector. In any text `value`, use plain ASCII (`-`, straight quotes) **or a numeric HTML entity**: em-dash `&#8212;`, en-dash `&#8211;`, curly quotes `&#8216;`/`&#8217;`/`&#8220;`/`&#8221;`. These decode to the right character on the page.
+NO  `\u2014` and friends -- a JSON escape survives this transport verbatim, so the visitor reads the literal characters `\u2014`. Entities are for CHARACTERS only; tags still go in raw (see above).
 ### Self-Closing Syntax Error
 ❌ `<!-- wp:divi/text {...} -->` — opens a container, never closes.
 ✅ `<!-- wp:divi/text {...} /-->` — note the space before `/`.
@@ -371,7 +372,7 @@ If `imageIcon.innerContent.desktop.value.src` is an empty string `""` (with `use
 
 **Content:**
 - [ ] Heading `title.innerContent` is plain text
-- [ ] Rich text uses `\u003c` / `\u003e` encoding
+- [ ] Rich text passes RAW HTML (no pre-escaping); non-ASCII uses `&#8212;`-style entities
 - [ ] Blurb title uses `{"text": "..."}` object format
 - [ ] Button uses `linkUrl` / `linkTarget`
 - [ ] Variable refs include `"settings": {}`

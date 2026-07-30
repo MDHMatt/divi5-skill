@@ -53,13 +53,13 @@ Renders a standalone heading element. **Self-closing.**
 
 Renders HTML content (paragraphs, lists, etc.). **Self-closing.**
 
-> Uses `"inlineEditor": "richtext"` — HTML content expected, must be unicode-escaped.
+> Uses `"inlineEditor": "richtext"` — raw HTML expected. Pass tags as-is; do NOT pre-escape.
 
 ```json
 {
   "content": {
     "innerContent": {
-      "desktop": {"value": "\u003cp\u003eYour paragraph text here.\u003c/p\u003e"}
+      "desktop": {"value": "<p>Your paragraph text here.</p>"}
     },
     "decoration": {
       "bodyFont": {
@@ -190,7 +190,7 @@ elements beyond `module`: **`imageIcon`**, **`title`**, **`content`** (+ a
 - To link the **whole blurb** instead, use the shared **`module.advanced.link`** group.
 
 ### Content — `content` (body)
-`content.innerContent.desktop.value` = an **HTML string** (escape `<`/`>`),
+`content.innerContent.desktop.value` = an **HTML string** (raw tags, do not pre-escape),
 rendered into `<div class="et_pb_blurb_description">`. Body styling →
 `content.decoration.bodyFont.body.font…`; body-link styling → `content.decoration.bodyFont.link`.
 
@@ -261,7 +261,7 @@ Title + body + button combined. **Self-closing.** Confirmed working.
     }}}}}
   },
   "content": {
-    "innerContent": {"desktop": {"value": "\u003cp\u003eJoin thousands of customers.\u003c/p\u003e"}},
+    "innerContent": {"desktop": {"value": "<p>Join thousands of customers.</p>"}},
     "decoration": {"bodyFont": {"body": {"font": {"desktop": {"value": {
       "color": "#bfdbfe", "size": "18px", "textAlign": "center"
     }}}}}}
@@ -297,7 +297,7 @@ Testimonial quote with author and optional portrait. **Self-closing.**
 {
   "content": {
     "innerContent": {
-      "desktop": {"value": "\u003cp\u003eThis service transformed our business entirely.\u003c/p\u003e"}
+      "desktop": {"value": "<p>This service transformed our business entirely.</p>"}
     }
   },
   "author": {
@@ -347,7 +347,7 @@ Team member card with photo, name, position. **Self-closing.** (Tag is `divi/tea
   "image": {
     "innerContent": {"desktop": {"value": {"url": "https://example.com/photo.jpg"}}}
   },
-  "content": {"innerContent": {"desktop": {"value": "\u003cp\u003eBio text here.\u003c/p\u003e"}}},
+  "content": {"innerContent": {"desktop": {"value": "<p>Bio text here.</p>"}}},
   "builderVersion": "5.9.0"
 }
 ```
@@ -607,7 +607,7 @@ Renders raw HTML/CSS/JS. **Self-closing.**
 {
   "content": {
     "innerContent": {
-      "desktop": {"value": "\u003cstyle\u003e.custom { color: red; }\u003c/style\u003e"}
+      "desktop": {"value": "<style>.custom { color: red; }</style>"}
     }
   },
   "module": {
@@ -681,7 +681,7 @@ Full-width hero header with title, subhead, content, and up to 2 buttons. **Self
     }}}}}
   },
   "content": {
-    "innerContent": {"desktop": {"value": "\u003cp\u003eBody paragraph text.\u003c/p\u003e"}}
+    "innerContent": {"desktop": {"value": "<p>Body paragraph text.</p>"}}
   },
   "buttonOne": {
     "innerContent": {"desktop": {"value": {"text": "Primary CTA", "linkUrl": "#"}}}
@@ -726,7 +726,7 @@ Renders sanitized inline SVG, either from pasted markup or an uploaded `.svg` UR
 | Field (`svg.innerContent.desktop.value`) | Purpose |
 |------|---------|
 | `sourceType` | `"code"` (paste markup) or `"upload"` (use `src`) |
-| `code` | the SVG markup — **HTML-encode** `<`/`>` as `<`/`>` like rich text |
+| `code` | the SVG markup — pass it raw, like rich text (do not pre-escape) |
 | `src` | URL of an uploaded `.svg` file (when `sourceType:"upload"`) |
 | `linkUrl` | optional URL to wrap the SVG in a link |
 | `linkTarget` | `"off"` (same tab) / `"on"` (new tab) |

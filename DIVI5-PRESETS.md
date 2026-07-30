@@ -132,7 +132,7 @@ Attr path root: `title.decoration.font`
 | `module.decoration.spacing.{bp}.value.padding` | Padding |
 | `module.decoration.sizing.{bp}.value.width` | Module width |
 | `module.decoration.sizing.{bp}.value.maxWidth` | Max width |
-| `module.decoration.sizing.{bp}.value.alignment` | `"left"` / `"center"` / `"right"` |
+| `module.decoration.sizing.{bp}.value.alignSelf` | Module box alignment on the column cross-axis (the native **Sizing → Alignment** VB control, `align-self`): `"flex-start"` / `"center"` / `"end"`. Use THIS to position a width-capped box (e.g. a `maxWidth` text block), **not** `margin:auto` — it stays VB-editable and round-trips. Left = flex default, so omit it. |
 | `module.decoration.border.{bp}.value.radius` | Border radius |
 | `module.decoration.border.{bp}.value.styles` | Border styles object |
 | `module.decoration.boxShadow.{bp}.value.style` | Shadow style preset |

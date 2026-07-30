@@ -75,7 +75,7 @@ Image gallery grid. **Self-closing.**
     }}}}}
   },
   "content": {
-    "innerContent": {"desktop": {"value": "\u003cp\u003eSlide body text.\u003c/p\u003e"}},
+    "innerContent": {"desktop": {"value": "<p>Slide body text.</p>"}},
     "decoration": {"bodyFont": {"body": {"font": {"desktop": {"value": {
       "color": "rgba(255,255,255,0.85)", "size": "18px", "textAlign": "center"
     }}}}}}

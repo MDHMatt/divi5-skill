@@ -452,12 +452,18 @@ Valid children for each container module:
   },
   "advanced": {
     "htmlAttributes": {
-      "class": {"desktop": {"value": "my-custom-class"}},
-      "id":    {"desktop": {"value": "hero-section"}}
+      "desktop": {"value": {"id": "hero-section", "class": "my-custom-class"}}
     }
   }
 }
 ```
+
+🚨 **The breakpoint is OUTERMOST — `htmlAttributes.desktop.value.{id,class}`.** The per-key shape
+`"id": {"desktop": {"value": "hero-section"}}` (documented here before 5.9.0) **stores cleanly and
+renders nothing** — no `id` attribute, so every in-page `#anchor` pointing at it is silently dead.
+Confirmed on **Divi 5.9.0** against Divi's own reader
+`Module/Options/IdClasses/IdClassesClassnames.php`, which reads `$attr['desktop']['value']['id']` /
+`['class']`, and by emitting both spellings on one page. See STYLING §9.
 
 ---
 

@@ -26,7 +26,7 @@ Expandable FAQ items. `accordion` is **NOT self-closing**. `accordion-item` **IS
     "advanced": {"open": {"desktop": {"value": "on"}}}
   },
   "title":   {"innerContent": {"desktop": {"value": "Question text?"}}},
-  "content": {"innerContent": {"desktop": {"value": "\u003cp\u003eAnswer text.\u003c/p\u003e"}}},
+  "content": {"innerContent": {"desktop": {"value": "<p>Answer text.</p>"}}},
   "builderVersion": "5.9.0"
 }
 ```
@@ -49,7 +49,7 @@ Single expand/collapse toggle. **Self-closing.** Confirmed working.
 ```json
 {
   "title":   {"innerContent": {"desktop": {"value": "Toggle Title"}}},
-  "content": {"innerContent": {"desktop": {"value": "\u003cp\u003eContent here.\u003c/p\u003e"}}},
+  "content": {"innerContent": {"desktop": {"value": "<p>Content here.</p>"}}},
   "builderVersion": "5.9.0"
 }
 ```
@@ -71,7 +71,7 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
 // tab (child — self-closing):
 {
   "title":   {"innerContent": {"desktop": {"value": "Tab Label"}}},
-  "content": {"innerContent": {"desktop": {"value": "\u003cp\u003eTab content.\u003c/p\u003e"}}},
+  "content": {"innerContent": {"desktop": {"value": "<p>Tab content.</p>"}}},
   "builderVersion": "5.9.0"
 }
 ```
@@ -242,7 +242,7 @@ Email subscription form. **Self-closing.**
     }}}}}
   },
   "content": {
-    "innerContent": {"desktop": {"value": "\u003cp\u003eGet weekly tips delivered to your inbox.\u003c/p\u003e"}},
+    "innerContent": {"desktop": {"value": "<p>Get weekly tips delivered to your inbox.</p>"}},
     "decoration": {"bodyFont": {"body": {"font": {"desktop": {"value": {
       "color": "#94a3b8", "size": "16px", "textAlign": "center"
     }}}}}}

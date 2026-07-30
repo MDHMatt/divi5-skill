@@ -287,15 +287,15 @@ Controls flex behavior inside a column or group. On rows, only `flexWrap` is rel
 "font": {
   "desktop": {
     "value": {
-      "family":        "Outfit",
-      "size":          "48px",
-      "weight":        "800",
-      "style":         ["uppercase"],
-      "lineHeight":    "1.2",
-      "letterSpacing": "0.05em",
-      "textAlign":     "center",
-      "color":         "#FFFFFF",
-      "headingLevel":  "h2"
+      "family":         "Outfit",
+      "size":           "48px",
+      "weight":         "800",
+      "capitalization": "uppercase",
+      "lineHeight":     "1.2",
+      "letterSpacing":  "0.05em",
+      "textAlign":      "center",
+      "color":          "#FFFFFF",
+      "headingLevel":   "h2"
     }
   }
 }
@@ -319,7 +319,8 @@ Controls flex behavior inside a column or group. On rows, only `flexWrap` is rel
 ```
 
 **Font weights:** `"100"` – `"900"`, `"normal"`, `"bold"` (or `"variable"` + `weightFineTune` — §7e)
-**Font styles (array):** `"italic"`, `"uppercase"`, `"underline"`, `"overline"`, `"strikethrough"`
+**Font styles (array):** `"italic"`, `"underline"`, `"overline"`, `"strikethrough"`
+**Text transform (uppercase / lowercase / capitalize):** `capitalization`, **not** `style[]` — see the trap in §7e
 **Text align:** `"left"`, `"center"`, `"right"`, `"justify"`
 
 > **NEW in 5.8.0:** variable fonts, capitalization/small-caps, drop caps, text columns, vertical text direction, line-wrap/hyphenation, and decoration-line styling — all on this same `font` object. See **§7e**.
@@ -480,7 +481,9 @@ Smoothly interpolate a font's OpenType axes instead of picking a discrete weight
 | `"uppercase"` / `"lowercase"` / `"capitalize"` | `text-transform` |
 | `"smallCaps"` / `"allSmallCaps"` | `font-variant-caps: small-caps` / `all-small-caps` |
 
-(The legacy `style:["uppercase"]` still works for transform; `capitalization` is the new dedicated control and is the only way to get small-caps.)
+🚨 **`style:["uppercase"]` is NOT a fallback for text-transform — it emits no CSS at all.** Measured on **Divi 5.9.0** (`divi/text`, three arms on one page sharing one stylesheet): `capitalization:"uppercase"` → `text-transform:uppercase` ✓, `style:["uppercase"]` → computed `none` ✗. Five spellings were probed and **all** failed: `style:["uppercase"]`, `style:"uppercase"`, `style:["TT_UPPERCASE"]`, `textTransform:"uppercase"`, `textTransform:["uppercase"]`. The attr stores cleanly and round-trips, so the markup *looks* correct — there is simply no rule. (Cost in a real build: every mono eyebrow and every footer column heading rendered in sentence case, and it read as a design choice.) **`capitalization` is the only route to `text-transform`, and the only route to small-caps.**
+
+`style[]` is still the right control for **italic / underline / overline / strikethrough** (all four render-confirmed — see the §7e status note below); only the transform value is dead.
 
 ### Text-decoration line styling
 The `style[]` array now also accepts **`"overline"`** (alongside `"underline"`, `"strikethrough"`, `"italic"`). New sibling keys style the line itself:
@@ -595,12 +598,20 @@ Absolute-position an element (badge, sticker, overlay) via `module.decoration.po
   },
   "advanced": {
     "htmlAttributes": {
-      "class": {"desktop": {"value": "my-custom-class"}},
-      "id":    {"desktop": {"value": "hero-section"}}
+      "desktop": {"value": {"id": "hero-section", "class": "my-custom-class"}}
     }
   }
 }
 ```
+
+🚨 **The breakpoint is OUTERMOST — `htmlAttributes.desktop.value.{id,class}`.** The per-key shape
+`"id": {"desktop": {"value": "hero-section"}}` (documented here before 5.9.0, so copied code is out there)
+**stores cleanly and renders nothing** — no `id` attribute, no class, and therefore a whole table of
+contents of dead `#anchor` links with no error anywhere. Confirmed two ways on **Divi 5.9.0**: both
+spellings emitted on one page so exactly one could win, and the per-key one lost; and Divi's reader
+`Module/Options/IdClasses/IdClassesClassnames.php` only ever looks at `$attr['desktop']['value']['id']`
+/ `['class']`. Probed on section, row and text modules. Note it reads **`desktop` only** — id/class are
+not responsive.
 
 ---
 
