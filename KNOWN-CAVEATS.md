@@ -1,7 +1,7 @@
 # Divi 5 Skill — Known Caveats & Limitations
 
 > The detailed source of truth behind each item is [`DIVI5-COVERAGE.md`](DIVI5-COVERAGE.md)
-> (the canonical coverage map, v0.6.5 / Divi 5.9.0).
+> (the canonical coverage map, v0.6.6 / Divi 5.9.0).
 
 These are the known limits of building Divi 5 with the skill (and, by extension, via Divi Connect). They
 fall into five buckets.
@@ -18,6 +18,8 @@ fall into five buckets.
 | `divi/gallery` **images in JSON** | WordPress 500 | Grid attrs work; images need WP media-library IDs (set in editor) |
 | `boolean_checkbox` contact field | Silently skipped | Use `checkbox` with a single option |
 | Woo **checkout** modules via plain REST with an **empty cart** | HTTP 500 at save | Place on the Checkout page / a TB template, or boot a WC cart first |
+| `font…value.style: ["uppercase"]` (and `textTransform` in any spelling) | Stores + round-trips, emits **no** `text-transform` (5.9.0) | `capitalization: "uppercase"` (STYLING §7e) |
+| `htmlAttributes.id.desktop.value` (per-key shape) | Stores cleanly, renders **no** `id`/`class` — dead `#anchor` links | `htmlAttributes.desktop.value.{id,class}` (STYLING §9) |
 
 ## 2. Not covered at all (need external services or the editor)
 
@@ -50,7 +52,7 @@ haven't been confirmed with a real render.
 
 ## 5. Version & scope
 
-- The skill is confirmed against **Divi 5.9.0** (v0.6.5) and tracks the 5.8.x–5.9.x line. Treat any
+- The skill is confirmed against **Divi 5.9.0** (v0.6.6) and tracks the 5.8.x–5.9.x line. Treat any
   feature newer than 5.9.0 as unverified.
 - **5.9.0** added no new modules (the same 84 as 5.8.x) and no schema breaks. Its one new authoring
   surface is the **Grid Editor** — container-driven per-item placement via `gridOffsetRules` on a
@@ -63,4 +65,4 @@ haven't been confirmed with a real render.
 
 ---
 
-*Generated from DIVI5-COVERAGE.md (v0.6.5 · Builder Version 5.9.0). Keep both in sync when coverage changes.*
+*Generated from DIVI5-COVERAGE.md (v0.6.6 · Builder Version 5.9.0). Keep both in sync when coverage changes.*

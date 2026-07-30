@@ -9,7 +9,30 @@ in [SKILL.md](SKILL.md)). The version is bumped only when the **authoring schema
 changes. Documentation corrections and clarifications that don't change the schema
 are logged under **Unreleased** and ship within the current version without a bump.
 
-## [Unreleased]
+## [0.6.6] — 2026-07-30 · Divi Builder 5.9.0
+
+- **DIVI5-STYLING.md:** corrected **§7e Capitalization**, which claimed "the legacy `style:["uppercase"]` still
+  works for transform". It does not. Measured on **Divi 5.9.0** (`divi/text`, three arms on one page sharing one
+  stylesheet): `capitalization:"uppercase"` → `text-transform:uppercase`; `style:["uppercase"]` → computed `none`.
+  Five spellings all failed (`style:["uppercase"]`, `style:"uppercase"`, `style:["TT_UPPERCASE"]`,
+  `textTransform:"uppercase"`, `textTransform:["uppercase"]`) — the attr stores cleanly and round-trips, so the
+  markup looks right and emits nothing, which reads as a design choice rather than a bug. `capitalization` is now
+  documented as the only route to `text-transform`. `style[]` remains correct for italic/underline/overline/
+  strikethrough (all four render-confirmed, §7e status note) — only the transform value was wrong. Also fixed the
+  §7 heading-font example, which taught the broken `style:["uppercase"]` route, and the §7 "Font styles (array)"
+  list, which included `"uppercase"`.
+- **DIVI5-STYLING.md §9 + DIVI5-LAYOUT.md §7:** corrected the **`htmlAttributes`** shape. Both files documented
+  `htmlAttributes.id.desktop.value` (key first, breakpoint inside). That shape stores cleanly and **renders
+  nothing** — no `id`, no class, so in-page `#anchor` links silently go nowhere. The working shape has the
+  breakpoint **outermost**: `htmlAttributes.desktop.value.{id, class}`. Confirmed two ways on 5.9.0 — both
+  spellings emitted on one page so exactly one could win (the documented one lost), and Divi's own reader
+  `Module/Options/IdClasses/IdClassesClassnames.php` reads `$attr['desktop']['value']['id']`/`['class']`, and
+  reads `desktop` only. Probed on section, row and text modules.
+- **KNOWN-CAVEATS.md:** added both of the above to §1 (silent-drop table).
+
+  *Both are docs-only: Divi's 5.9.0 authoring schema is unchanged (it never accepted either wrong shape). They
+  are nevertheless shipped as a VERSION BUMP, because a copy already downloaded at 0.6.5 or earlier carries the
+  incorrect guidance and only a new version number makes it re-download.*
 
 - **DIVI5-CONNECT.md:** added **§5 "Match a reference — make it like this"** — a fidelity-ladder workflow for
   when the user wants a page to match something. (1) a page already on this site → `divi_get_tree` /
@@ -48,6 +71,16 @@ are logged under **Unreleased** and ship within the current version without a bu
   fold, one primary CTA per section, high-scent CTA labels (not "Learn more"/"Click here"), one H1 + no skipped
   heading levels, ≤2 fonts / ≤3 core colours, 45–75char line length, alt text + contrast + focus. Notes that
   `divi_build_page` now warns on several of these. Added a matching line to the §11 Self-Critique Rubric. Docs-only.
+- **DIVI5-BASE.md rule 10:** rewrote the rich-text rule, which read "must HTML-encode `<` as `<` and `>` as `>`"
+  — a no-op as written (the entities had been decoded by an earlier sweep) and a flat contradiction of
+  §"HTML content is passed RAW" 143 lines below it in the same file, which has said since 1.7.5 that escaping
+  `<`/`>` "produces visibly broken pages". Now states the rule once, for both audiences: rich text takes raw
+  HTML; neither HTML entities nor a JSON `\u003c` escape may be pre-applied.
+- **DIVI5-PRESETS.md:** the preset attr-path table documented `module.decoration.sizing.{bp}.value.alignment`
+  (`"left"`/`"center"`/`"right"`). The native control is **`alignSelf`** (`"flex-start"`/`"center"`/`"end"`)
+  — Divi's Sizing → Alignment, emitting `align-self`. Use it to position a width-capped box instead of
+  `margin:auto`, which does not round-trip in the Visual Builder.
+
 - **DIVI5-PRESETS.md:** added **§1b "Preset system model — design it in levels (role-based)"** — the Divi 5
   four-level preset model (variables → Option-Group presets in the `group` bucket → nested/composable → Element
   presets with a per-module `default`), the base-then-variation stacking order, and role-based scope-prefixed

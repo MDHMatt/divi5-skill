@@ -64,12 +64,12 @@ rejects pages that break rules 1-3, so getting them right avoids a failed call.
 
 2. **`divi/text` content key is exactly `content`** — never `body` or `text`.
    ❌ `"body":{...}` or `"text":{...}` → renders EMPTY
-   ✅ `"content":{"innerContent":{"desktop":{"value":"\u003cp\u003eHello.\u003c/p\u003e"}}}`
+   ✅ `"content":{"innerContent":{"desktop":{"value":"<p>Hello.</p>"}}}`
    (`body` only exists as the `bodyFont` styling group.)
 
-3. **HTML in a `value` must be unicode-escaped** (`\u003c`/`\u003e`), never raw tags.
-   ❌ `"value":"<p>Hello.</p>"`   ✅ `"value":"\u003cp\u003eHello.\u003c/p\u003e"`
-   Also escape **non-ASCII** typography (em-dash `\u2014`, curly quotes `\u2019`/`\u201c`/`\u201d`, emoji) as `\uXXXX`, OR use plain ASCII (`-`, straight quotes). The claude.ai connector corrupts raw multibyte characters into `�`.
+3. **HTML in a `value` is passed RAW** (`<p>`, `<strong>`) -- never pre-escape it.
+   ❌ `"value":"<p>Hello.</p>"`   ✅ `"value":"<p>Hello.</p>"`
+   Also write **non-ASCII** typography as numeric HTML entities (em-dash `&#8212;`, curly quotes `&#8217;`/`&#8220;`/`&#8221;`), OR use plain ASCII (`-`, straight quotes). The claude.ai connector corrupts raw multibyte characters, and a JSON `\uXXXX` escape survives the transport verbatim so the visitor reads it literally.
 
 4. Every module needs `"builderVersion":"5.9.0"`. Self-closing modules end ` /-->`.
    Wrap the whole page in `<!-- wp:divi/placeholder --> ... <!-- /wp:divi/placeholder -->`.
@@ -119,9 +119,26 @@ Detail: `DIVI5-CONNECT.md` §3.
 
 ## Version
 
-**V0.6.4 — Builder Version 5.9.0** (tracks the Divi 5.8.x–5.9.x line). The
+**V0.6.6 — Builder Version 5.9.0** (tracks the Divi 5.8.x–5.9.x line). The
 `builderVersion` stamp on generated markup should match your site's Divi version
 (`"5.9.0"` on current installs; older values still import via backward-compat).
+v0.6.6 is a correctness release (same 5.9.0 schema). It fixes two rules that were
+wrong in every copy downloaded at 0.6.5 or earlier, both of which fail *silently*:
+**`text-transform` comes only from `capitalization`** (the legacy `style:["uppercase"]`
+stores cleanly and emits nothing), and **`htmlAttributes` takes the breakpoint
+outermost** — `htmlAttributes.desktop.value.{id, class}`, not `htmlAttributes.id.
+desktop.value`, which renders no `id` at all so in-page `#anchor` links go nowhere.
+It also settles rich-text escaping in one place (**raw HTML, never pre-escaped**) and
+documents the native **Sizing → Alignment** control
+(`module.decoration.sizing.{bp}.value.alignSelf`), which supersedes the old
+`sizing.alignment` preset path. Adds DESIGN-PROCESS §11b (post-build polish pass) and
+§8c (landing-page heuristics), CONNECT §5 (match a reference), PRESETS §1b (the
+four-level preset model), and an **Adobe Typekit / non-Divi fonts** section (STYLING).
+v0.6.5 shipped only inside the Divi Connect plugin bundle — never as a repo release or
+download — so its notes are folded in here: rich-text content is documented as raw
+HTML because a JSON `\uXXXX` escape survives the MCP transport verbatim (the old
+guidance put literal `\u003cp\u003e` on the page), and non-ASCII typography uses
+numeric HTML entities (`&#8212;`) for the same reason.
 v0.6.4 is a documentation/patterns release (same 5.9.0 schema): it documents the
 Divi Connect **section-pattern library** — 28 ready-made, mostly-native section
 patterns (hero, pricing, testimonials, FAQ, timeline, gallery, comparison, and

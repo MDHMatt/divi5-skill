@@ -50,6 +50,14 @@ BASE + LAYOUT + STYLING + MODULES-CONTENT + WORDPRESS + PATTERNS
 
 > Full change history — including documentation corrections made within a version — is in [CHANGELOG.md](CHANGELOG.md).
 
+**V0.6.6 — Builder Version 5.9.0**
+
+Correctness release (same Divi 5.9.0 authoring schema). Fixes two silently-failing rules that shipped in 0.6.5 and earlier: **`text-transform` is produced only by `capitalization`** (the legacy `style:["uppercase"]` stores cleanly and emits nothing), and **`htmlAttributes` puts the breakpoint outermost** — `htmlAttributes.desktop.value.{id, class}`, not `htmlAttributes.id.desktop.value`, which renders no `id` at all so in-page `#anchor` links go nowhere. Also settles rich-text escaping in one place (**raw HTML, never pre-escaped**), documents the native **Sizing → Alignment** control (`module.decoration.sizing.{bp}.value.alignSelf`) in place of the old `sizing.alignment` preset path, and corrects font-variable references to `{"type":"content"}`. Adds DESIGN-PROCESS §11b/§8c, CONNECT §5 (match a reference), PRESETS §1b, and an Adobe Typekit / non-Divi fonts section.
+
+**V0.6.5 — Builder Version 5.9.0**
+
+Shipped only inside the Divi Connect plugin bundle — there was no repo release or download at this version. Documented rich-text content as **raw HTML, never pre-escaped** (a JSON `\uXXXX` escape survives the MCP transport verbatim) and switched non-ASCII typography to numeric HTML entities. Folded into V0.6.6 above.
+
 **V0.6.4 — Builder Version 5.9.0**
 
 Documentation/patterns release (same Divi 5.9.0 authoring schema). Documents the Divi Connect **section-pattern library** — 28 ready-made, mostly-native section patterns (hero, pricing, testimonials, stats, FAQ, team, timeline, gallery, comparison, tabs, slider, blog, portfolio, contact, before/after and more) plus the `divi_list_patterns` discovery tool and the `divi_build_page` fidelity primitives (background-image overlays, badges, tilt, variable fonts). See `DIVI5-CONNECT.md`.

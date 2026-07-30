@@ -23,10 +23,11 @@ edited in place; this policy prevents that recurring.)
 | 0.6.2 | [v0.6.2/](v0.6.2/) (browse) · [v0.6.2.zip](v0.6.2.zip) (download) | 5.8.1 | Metadata release (no schema change) — made the skill `description` version-agnostic (was stale at "5.7.x"; skill targets 5.8.x). |
 | 0.6.3 | [v0.6.3/](v0.6.3/) (browse) · [v0.6.3.zip](v0.6.3.zip) (download) | 5.9.0 | Divi 5.9.0 — **Grid Editor** (`gridOffsetRules` container-driven per-item placement, LAYOUT §5b, render-confirmed) + doc roll-up ("avoid AI-design clichés" §8b, render-verified community gotchas, connector-tailored bundling). No new modules vs 5.8.x. |
 | 0.6.4 | [v0.6.4/](v0.6.4/) (browse) · [v0.6.4.zip](v0.6.4.zip) (download) | 5.9.0 | Documentation/patterns release (no schema change) — documents the Divi Connect **section-pattern library** (28 mostly-native patterns) + the `divi_list_patterns` tool + `divi_build_page` fidelity primitives (bg-image overlays, badges, tilt, variable fonts). |
+| 0.6.6 | [v0.6.6/](v0.6.6/) (browse) · [v0.6.6.zip](v0.6.6.zip) (download) | 5.9.0 | Correctness release (no schema change) — fixes two silently-failing rules (`text-transform` only via `capitalization`; `htmlAttributes` breakpoint outermost), settles rich-text escaping (raw HTML, never pre-escaped), documents `sizing.alignSelf`, and corrects font-variable refs to `type:"content"`. (0.6.5 shipped only inside the Divi Connect plugin bundle and has no snapshot.) |
 
 0.3.0+ are multi-file, so each is provided both as browseable files under `vX.Y.Z/` and as a
 downloadable `vX.Y.Z.zip` (mirrors the original "Upload these to Claude" / reference layout). The current
-release lives in the repo root; **0.6.2** is the latest.
+release lives in the repo root; **0.6.6** is the latest.
 
 **Not archived:** 0.4.0 (Divi 5.6.2) and 0.5.0 (Divi 5.7.0) have no surviving snapshot — those skill
 files were edited in place during development, so no standalone copy was kept; they exist only as entries
