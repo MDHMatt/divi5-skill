@@ -604,6 +604,53 @@ Absolute-position an element (badge, sticker, overlay) via `module.decoration.po
 
 ---
 
+## 9b. Custom CSS — the escape hatch, and the two things that make it silently fail
+
+For the handful of real CSS properties Divi has **no control for**. `backdrop-filter` is the
+motivating one: a floating translucent navbar cannot be built without it. Divi has no
+backdrop-filter option (its Filters group is `filter:`, applied to the element itself), but the
+property IS on the allowlist that sanitises the Custom CSS field, so it goes there.
+
+🚨 **THE PATH IS NOT WHERE YOU WOULD LOOK. Two things trip people up at once:**
+
+1. **`css` is a TOP-LEVEL attr key — a sibling of `module`.** It is **not** `module.advanced.css`.
+2. **The field is `mainElement`** — not `main`.
+
+```json
+"css": {
+  "desktop": {
+    "value": {
+      "mainElement": "backdrop-filter: blur(8px) saturate(1.5);\n-webkit-backdrop-filter: blur(8px) saturate(1.5);"
+    }
+  }
+}
+```
+
+⚠️ **Get either one wrong and the attr STORES CLEANLY and emits no CSS at all.** There is no
+error and no warning — the value round-trips through save/load untouched and simply never
+becomes a rule. So "it saved" tells you nothing here; verify by reading the generated CSS or a
+computed style.
+
+**Declarations only** — no selector, no braces. Divi wraps them with the module's own order
+class, e.g. `.et_pb_row_1.et_pb_row { … }`.
+
+Works on **sections, rows, columns and modules**. Other field names exist per module for inner
+elements (e.g. `css.{bp}.value.headingContainer` targets `.et_pb_heading_container` on a
+heading) — see DIVI5-PRESETS.md §3b.
+
+**When to use it, and when not to.** Reach for real attrs for anything Divi can express: they
+stay editable in the Visual Builder and re-theme when a design token changes, and raw CSS does
+neither. Custom CSS is per-module, so it cannot leak site-wide — which also makes it much safer
+than Theme Options ▸ Custom CSS, where a site-wide rule is invisible to whoever edits the page
+later.
+
+🪤 **`backdrop-filter` fails silently if any ancestor has `overflow` other than `visible`, or a
+`filter` of its own.** Divi wraps sections heavily, so when the blur does not appear, walk the
+ancestor chain before blaming the CSS — the wrapper is usually the culprit. `-webkit-` prefixed
+properties survive the sanitiser, so Safari can be covered explicitly.
+
+---
+
 ## 10. Global Design Tokens (Variables) — Confirmed
 
 ### Color variable syntax
@@ -718,6 +765,48 @@ Divi resolves it to `var(--gvid-NAME)` and emits e.g.
 > in a fresh profile by measuring a string under two different fallbacks
 > (`"X", serif` vs `"X", monospace` — equal widths ⇒ the real face rendered), with
 > a deliberately fake family name as a control.
+
+### Adobe Typekit / Adobe Fonts families (and any font Divi does not know)
+
+Divi 5's Variable Manager **Fonts** tab is a dropdown of fonts Divi already knows —
+Google Fonts plus anything uploaded or registered into Divi. A Typekit family loaded
+through the site's `<head>` embed is outside Divi's font system, so it never appears
+in that dropdown and **cannot be typed in by hand**.
+
+Consequences worth knowing before you start:
+
+- The brand font variable has to be created through the connector (`divi_set_variables`,
+  type `font`) with the raw family string, e.g. `"proxima-nova"`. There is no UI path.
+  It is written into Divi's own variables store in the database — the same store the
+  Variable Manager reads — so it is normal Divi data, not anything connector-specific.
+- In the Variable Manager the variable's **String column reads "Default"**, because the
+  stored value matches no dropdown option. The value IS present and rendering; the
+  manager just cannot show it. Confirmed on a live site: stored `proxima-nova`, manager
+  showed "Default", module tooltip showed the real family.
+- Leave Divi's built-in **Heading** and **Body** font variables alone. Their dropdowns
+  cannot select a Typekit face either — apply the brand face through the dedicated
+  brand-font token(s) instead.
+- One token per distinct FAMILY, not per heading/body split.
+
+The kit itself is loaded at **Divi -> Theme Options -> Integration -> add code to the
+`<head>`**. Claude cannot do that step; the site owner pastes Adobe's embed there.
+
+> ⚠️ **A Typekit site cannot validate the `type:"font"` bug.** An Adobe kit loads its
+> fonts globally through Adobe's own script on every page, regardless of what Divi
+> enqueues — so a font applied with the wrong `type:"font"` token still displays
+> correctly. Seeing the right typeface (even in incognito) proves only that Adobe
+> loaded it, not that the token is right. Still use `type:"content"`: it is the only
+> form that loads the font itself if the kit is ever removed or the setup is reused
+> with a Google or self-hosted family. When verifying font-enqueue behaviour, test with
+> a Divi-managed font, where the enqueue is the only thing that can load the file.
+
+**Handing the site to someone without Divi Connect:** the variable is ordinary Divi
+data, so the next owner can repoint it at any font Divi lists straight from the
+Variable Manager. The one thing they cannot do there is set it back to an Adobe face —
+for that, register the Adobe font into Divi first with an Adobe Fonts integration
+plugin (Adobe's licence permits linking the kit, not self-hosting the files, so
+uploading the `.otf` is not an option). Once registered it appears in the dropdown and
+behaves like any normal Divi font.
 
 ### Defining `global_colors` in export JSON
 
@@ -869,6 +958,7 @@ Form-based modules (contact-form, contact-field, signup, comments, search, login
 | Text alignment | `...font.desktop.value.textAlign` |
 | Admin label | `module.meta.adminLabel.desktop.value` |
 | Z-index | `module.decoration.zIndex.desktop.value` |
+| Custom CSS (escape hatch) | **`css.desktop.value.mainElement`** — TOP-LEVEL `css`, field `mainElement`, declarations only. Wrong path stores fine and emits nothing (§9b) |
 | HTML anchor id | `module.decoration.attributes.desktop.value.attributes[].value` |
 | Hover state | `<group>.<breakpoint>.hover` (sibling of `value`, un-wrapped — §7c) |
 | Position (absolute) | `module.decoration.position.desktop.value` (`mode`/`origin[mode]`/`offset`; parent `relative`+`top left` — §7d) |
