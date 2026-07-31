@@ -5,6 +5,9 @@ Modular skill files for generating Divi 5 page layouts via JSON.
 📖 **New here? Start with the [Wiki](docs/wiki/Home.md)** — what this is, how to attach
 it to Claude, building a page, publishing live, module coverage, and contributing.
 
+Created and maintained by **Shashank Gupta** ([@shashankgupta-dev](https://github.com/shashankgupta-dev))
+of [divilove.com](https://divilove.com).
+
 Licensed under the [MIT License](LICENSE).
 
 ## Files
