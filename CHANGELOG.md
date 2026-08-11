@@ -9,6 +9,32 @@ in [SKILL.md](SKILL.md)). The version is bumped only when the **authoring schema
 changes. Documentation corrections and clarifications that don't change the schema
 are logged under **Unreleased** and ship within the current version without a bump.
 
+## [Unreleased] — corrections within 0.6.6 (Divi 5.9.0)
+
+No schema change: this documents authoring rules that were always true and were simply
+missing, so it ships inside 0.6.6 under the versioning policy above.
+
+- **DIVI5-PRESETS.md §2b (new): the GROUP preset item schema.** The file previously
+  documented only the *module* shape, so anyone authoring a group preset had nothing to work
+  from and would reasonably model it on the module item — which fails silently. Reported by
+  a customer who lost most of a day to it and had to fall back on hand-written CSS for a
+  button. Three differences are load-bearing and now stated: `type: "group"`, the
+  `groupName` + `groupId` pair (`moduleName` is still required *as well*), and — the one
+  that actually breaks it — **`attrs` is rooted at the GROUP's key (`button`), not at
+  `decoration`**. Includes a real shipped preset as a worked example, the eleven group
+  buckets, and the trap that a `groupName` not matching Divi's own `presetGroup` string is
+  silently ignored.
+- **DIVI5-PRESETS.md §2/§4: `renderAttrs` is required, and empty means `[]`, not `{}`.** The
+  schema block showed it as an object and did not list it as required. A preset without it
+  can validate, save, be counted in the totals, and never appear in the builder's list, with
+  no error anywhere — the only symptom is a human looking at a dropdown.
+- **DIVI5-PRESETS.md §2: `order` is NOT required.** It appears on builder-created presets, so
+  it shows up when diffing against one; all 490 presets Divi Connect ships omit it and list
+  correctly. Stated so nobody adds it across a catalog on the strength of that diff.
+- **DIVI5-PRESETS.md §2b: validation is not a render check.** A preset can pass a structural
+  repair/validate pass and still not appear in the builder. "Valid" means the store will hold
+  it, not that the builder will show it.
+
 ## [0.6.6] — 2026-07-30 · Divi Builder 5.9.0
 
 - **DIVI5-STYLING.md:** corrected **§7e Capitalization**, which claimed "the legacy `style:["uppercase"]` still

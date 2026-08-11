@@ -70,10 +70,84 @@ Divi 5 presets form a **four-level system**. Designing with the levels — not o
 
 **Required fields:** `id`, `name`, `moduleName`, `version`, `type`, `created`, `updated`
 
+⚠️ **`renderAttrs` must be present, and when empty it must be an empty ARRAY `[]`, not an
+empty object `{}`.** A preset missing it can validate, save, and be counted in the totals
+while never appearing in the builder's preset list — there is no error anywhere; the only
+symptom is a human looking at a dropdown. (Divi Connect ≥ 2.0.4 fills this in for you on
+write, so this matters most when writing to the store by any other route.)
+
+⛔ **`order` is NOT required.** It appears on presets the builder itself creates, so it shows
+up when you diff against one — but all 490 presets Divi Connect ships omit it and list
+correctly. Do not add it on the strength of a diff against a builder-made preset.
+
 **Bucket priority (source-verified):**
 - `attrs` is checked by `GlobalPresetItem::has_data_attrs()` → empty `attrs` means NO CSS is generated, even if `styleAttrs` has values
 - `styleAttrs` is auxiliary — the builder UI reads it for deduplication; it does NOT drive PHP CSS generation
 - Put all styling in **`attrs`**; mirror it in `styleAttrs` for builder-UI consistency
+
+---
+
+## §2b GROUP preset item schema — different from a module preset in three ways
+
+A **group preset** (Divi calls these Option Group Presets) styles one *option group* —
+Button, Border, Spacing, Text, Background — and **stacks across module types**. It is the
+right home for a reusable button style, because **a group preset out-cascades a module
+preset**: if both target the same property, the group wins.
+
+🚨 **DO NOT MODEL A GROUP ITEM ON A MODULE ITEM.** It is the commonest way to produce a
+preset that saves, validates, is counted, and never appears in the builder. Three
+differences, all load-bearing:
+
+| | module preset | group preset |
+|---|---|---|
+| `type` | `"module"` | `"group"` |
+| identity | `moduleName` alone | **`groupName` + `groupId`**, *plus* `moduleName` |
+| `attrs` root | the module's own root (`module`, `title`, …) | **the GROUP's key** (`button`, `image`, …) — **NOT `decoration`** |
+
+```json
+{
+  "type":       "group",
+  "id":         "dlp-btn-ghost",
+  "name":       "DL Button: Ghost",
+  "version":    "5.9.0",
+  "created":    0,
+  "updated":    0,
+  "groupName":  "divi/button",      // MUST match Divi's presetGroup EXACTLY
+  "groupId":    "button",
+  "moduleName": "divi/signup",      // still required on a group preset
+  "attrs": {
+    "button": {                     // ← the GROUP key is the root, not `decoration`
+      "decoration": {
+        "background": { "desktop": { "value": { "color": "rgba(0,0,0,0)" } } },
+        "font": { "font": { "desktop": { "value": { "color": "#1E4FD8" } } } }
+      }
+    }
+  },
+  "styleAttrs": { /* mirror of attrs */ },
+  "renderAttrs": []
+}
+```
+
+🪤 **A `groupName` that does not match Divi's own `presetGroup` string is SILENTLY IGNORED** —
+no error, no warning, and the preset simply never applies. Read an existing group preset out
+of the store and copy the string rather than guessing it.
+
+**Group buckets Divi Connect ships presets into:** `divi/background`, `divi/border`,
+`divi/box-shadow`, `divi/button`, `divi/filters`, `divi/font`, `divi/font-body`, `divi/image`,
+`divi/layout`, `divi/sizing`, `divi/spacing`.
+
+🔑 **The fastest way to get this right is to read one.** From Divi Connect 2.0.4 the preset
+read can be filtered, so you can fetch a single real group preset and copy its shape instead
+of inferring it:
+
+```
+divi_get_presets  type="group"  group="divi/button"
+```
+
+⚠️ **Validation is not a render check.** A preset can pass `divi_repair_presets` — which checks
+*structure* — and still not appear in the builder, because the builder applies rules the store
+does not. **"Valid" means "the store will hold it", not "the builder will show it."** After
+writing a preset, confirm it appears in the builder's list before building on top of it.
 
 ---
 
@@ -164,6 +238,9 @@ Attr path root: `content.decoration.bodyFont`
 ## §4 renderAttrs — HTML-Affecting Attrs
 
 Same nested format as `attrs`. Controls HTML structure/attributes, not CSS styles.
+
+⚠️ **When it carries nothing, ship it as `[]` — see the warning in §2.** An empty object is
+not equivalent here, and the failure is silent.
 
 | renderAttrs key path | What it controls |
 |---|---|
