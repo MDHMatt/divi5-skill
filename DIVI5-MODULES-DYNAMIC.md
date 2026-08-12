@@ -558,7 +558,44 @@ posts, *Paris* on 2, absent on the rest, read out of `postmeta` before building:
 *"Select custom field:city"*, i.e. the raw option key, not the placeholder passed. Set the
 visible text through the `label` element and don't rely on `placeholder` here.
 
-⚖️ Verified with a **text** field and `comparison:"="`. Numeric comparisons
-(`fieldValueType:"number"` with `">="` / `"<="`) are documented from the schema but **not yet
-measured** — numeric meta comparison is a classic string-vs-number trap in WordPress, so
-prove it before relying on it.
+### ✓ Numeric comparisons — verified, and Divi casts properly
+
+`fieldValueType:"number"` with `comparison:">="` / `"<="` **compares as a number, not a
+string.** That is the thing worth knowing: WordPress stores meta as text, so an uncast query
+makes `"9" >= "10"` true and returns *more* rows than it should — a bug that looks like a
+working filter.
+
+Tested against `price` = 9, 10, 25, 90, 100 (5 of 8 published posts):
+
+| filter | numeric answer | string answer | rendered |
+|---|---|---|---|
+| `price >= 10` | 4 | *5 — "9" sneaks in* | **4** ✓ |
+| `price <= 25` | 3 | *2 — "9" excluded* | **3** ✓ |
+| `price >= 9` | 5 | 5 | **5** |
+| `price >= 999` | 0 | 0 | **0** |
+
+The first two disagree with the string answer in **opposite directions**, so passing both by
+accident is not possible. Values like 100/200/300 would hide this entirely — pick test data
+that straddles a digit-length boundary.
+
+### 🪤 The query parameter shape DIFFERS BY FIELD TYPE — this cost a false failure
+
+A **select** submits under the option key:
+
+```
+loop_filter-<loopId>[custom_field:city]=London
+```
+
+A **text / number** control does **not**. It submits under a key built from the item's module
+id, with two companion parameters carrying the comparison and the meta key:
+
+```
+loop_filter-<loopId>[number_divipost-filter-item-0]=10
+loop_filter-<loopId>[number_divipost-filter-item-0_compare]=>=
+loop_filter-<loopId>[number_divipost-filter-item-0_meta]=price
+```
+
+⇒ **Read the rendered `name` attributes rather than assuming.** Filtering a number field with
+the select-style `[custom_field:price]` parameter returned **1** row — neither the numeric
+nor the string answer, and briefly looked like proof that `comparison` was being ignored. The
+module was right; the request was wrong.
