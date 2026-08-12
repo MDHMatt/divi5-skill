@@ -23,7 +23,7 @@ Embeds a video. **Self-closing.** Confirmed working.
       "desktop": {"value": {"src": "https://www.youtube.com/watch?v=XXXXX"}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -42,12 +42,11 @@ Image gallery grid. **Self-closing.**
       "layout": {
         "desktop":   {"value": {"gridColumnCount": "3"}},
         "tablet":    {"value": {"gridColumnCount": "2"}},
-        "phoneWide": {"value": {"gridColumnCount": "2"}},
         "phone":     {"value": {"gridColumnCount": "1"}}
       }
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -62,7 +61,7 @@ Image gallery grid. **Self-closing.**
 ```json
 // slider (parent — container):
 {
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // slide (child — self-closing):
@@ -91,7 +90,7 @@ Image gallery grid. **Self-closing.**
       }}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -110,7 +109,7 @@ Image gallery grid. **Self-closing.**
 ```json
 // video-slider (parent — minimal attrs):
 {
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // video-slider-item (child — self-closing):
@@ -118,7 +117,7 @@ Image gallery grid. **Self-closing.**
   "video": {
     "innerContent": {"desktop": {"value": {"src": "https://www.youtube.com/watch?v=XXXXX"}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -137,7 +136,7 @@ Lottie animation. **Self-closing.** Format confirmed — URL reliability is the 
   "lottie": {
     "innerContent": {"desktop": {"value": {"src": "https://example.com/animation.json"}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -162,7 +161,7 @@ Audio player. **Self-closing.** Confirmed working including audio src.
   "audio": {
     "innerContent": {"desktop": {"value": "https://example.com/track.mp3"}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -192,7 +191,7 @@ Before/after comparison slider. **Self-closing.** Confirmed working.
       }}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -200,4 +199,4 @@ Before/after comparison slider. **Self-closing.** Confirmed working.
 
 ---
 
-*DIVI5 Media Modules Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Media Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*

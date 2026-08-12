@@ -9,6 +9,43 @@ in [SKILL.md](SKILL.md)). The version is bumped only when the **authoring schema
 changes. Documentation corrections and clarifications that don't change the schema
 are logged under **Unreleased** and ship within the current version without a bump.
 
+## [0.6.7] — 2026-08-12 · Divi Builder 5.10.1
+
+**Retarget to Divi 5.10.1 + a corrected breakpoint model.** Divi 5.10.0 and 5.10.1 add **no
+new authoring schema** (both are bug-fix / builder-UI releases, read end to end), so the
+version move is a stamp change. The substance of this release is a defect in our own docs.
+
+### Fixed — the breakpoint table was wrong, and every responsive example acted on it
+
+`DIVI5-BASE.md` §6 described `phoneWide` as **480–767px** and the module/layout files used it
+as the mobile breakpoint. Both halves were wrong:
+
+- **480–767px is `phone`**, not `phoneWide`.
+- **`phoneWide` ships disabled** (`Breakpoint::get_default_settings_values()` →
+  `'enable' => false`, alongside `tabletWide`, `widescreen`, `ultraWide`) and therefore
+  **emits no CSS whatever** on a default site.
+
+⇒ Anyone following the examples wrote mobile rules that silently never applied — the failure
+shape this skill exists to prevent. **Ten example uses across LAYOUT, PATTERNS, MODULES-MEDIA
+and MODULES-INTERACTIVE now target `phone`**, and §6 carries the measured ladder plus an
+explicit "only three are on by default" warning.
+
+**Render-verified on 5.10.1**, not reasoned from source: one heading with a different
+font-size on each of the five breakpoints, published, then the emitted stylesheet parsed to
+find the media query enclosing each value. `desktop` → base rule (no query), `tablet` →
+`max-width:980px`, `phone` → `max-width:767px`; **`phoneWide` and `tabletWide` → no rule at
+all.** The four that emitted are the control: identical attribute shape, so the two that
+vanished were dropped by Divi, not malformed by the probe.
+
+🪤 Worth recording, since it nearly shipped: the first fix was a blind `phoneWide` → `phone`
+rename, which produced **duplicate JSON keys** — every one of those examples already had a
+`phone` entry. The lines were removed instead, with the preceding trailing comma repaired
+where `phoneWide` had been last.
+
+### Changed
+- `builderVersion` stamp → `"5.10.1"` across all examples (90 occurrences).
+- Version footers → `V0.6.7 | Builder Version 5.10.1`.
+
 ## [Unreleased] — corrections within 0.6.6 (Divi 5.9.0)
 
 No schema change: this documents authoring rules that were always true and were simply

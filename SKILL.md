@@ -59,7 +59,7 @@ rejects pages that break rules 1-3, so getting them right avoids a failed call.
    the attributes object — put `title`/`content`/`module`/`builderVersion` at the
    **top level**.
    ❌ `<!-- wp:divi/heading {"attrs":{"title":{...}}} /-->` → renders EMPTY
-   ✅ `<!-- wp:divi/heading {"title":{...},"builderVersion":"5.9.0"} /-->`
+   ✅ `<!-- wp:divi/heading {"title":{...},"builderVersion": "5.10.1"} /-->`
    (`attrs` is only a key in **preset** definitions — never in module blocks.)
 
 2. **`divi/text` content key is exactly `content`** — never `body` or `text`.
@@ -71,7 +71,7 @@ rejects pages that break rules 1-3, so getting them right avoids a failed call.
    ❌ `"value":"<p>Hello.</p>"`   ✅ `"value":"<p>Hello.</p>"`
    Also write **non-ASCII** typography as numeric HTML entities (em-dash `&#8212;`, curly quotes `&#8217;`/`&#8220;`/`&#8221;`), OR use plain ASCII (`-`, straight quotes). The claude.ai connector corrupts raw multibyte characters, and a JSON `\uXXXX` escape survives the transport verbatim so the visitor reads it literally.
 
-4. Every module needs `"builderVersion":"5.9.0"`. Self-closing modules end ` /-->`.
+4. Every module needs `"builderVersion": "5.10.1"`. Self-closing modules end ` /-->`.
    Wrap the whole page in `<!-- wp:divi/placeholder --> ... <!-- /wp:divi/placeholder -->`.
 
 Full detail + all other pitfalls: read `DIVI5-BASE.md`.
@@ -119,9 +119,11 @@ Detail: `DIVI5-CONNECT.md` §3.
 
 ## Version
 
-**V0.6.6 — Builder Version 5.9.0** (tracks the Divi 5.8.x–5.9.x line). The
+**V0.6.7 — Builder Version 5.10.1** (tracks the Divi 5.10.x line). The
 `builderVersion` stamp on generated markup should match your site's Divi version
-(`"5.9.0"` on current installs; older values still import via backward-compat).
+(`"5.10.1"` on current installs; older values still import via backward-compat).
+🚨 **v0.6.7 fixes a breakpoint error that made mobile styling silently do nothing:**
+`phoneWide` is **disabled by default and emits no CSS** — use `phone`. See DIVI5-BASE §6.
 v0.6.6 is a correctness release (same 5.9.0 schema). It fixes two rules that were
 wrong in every copy downloaded at 0.6.5 or earlier, both of which fail *silently*:
 **`text-transform` comes only from `capitalization`** (the legacy `style:["uppercase"]`

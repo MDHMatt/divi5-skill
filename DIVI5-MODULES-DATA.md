@@ -36,7 +36,7 @@ Animated number counter. **Self-closing.**
       }}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -61,7 +61,7 @@ Circular progress indicator. **Self-closing.** Confirmed working.
       "color": "#e2e8f0", "textAlign": "center"
     }}}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -79,14 +79,14 @@ Horizontal progress bars. `counters` is **NOT self-closing**. `counter` **IS sel
   "barProgress": {
     "advanced": {"usePercentages": {"desktop": {"value": "on"}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // counter (child — self-closing):
 {
   "title":       {"innerContent": {"desktop": {"value": "WordPress Development"}}},
   "barProgress": {"innerContent": {"desktop": {"value": "95"}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -125,7 +125,7 @@ Horizontal progress bars. `counters` is **NOT self-closing**. `counter` **IS sel
       }}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -166,7 +166,7 @@ Row (3-col) → each Column → pricing-tables → one pricing-table
       "layout": {"desktop": {"value": {"justifyContent": "center"}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // network item (child — self-closing):
@@ -179,7 +179,7 @@ Row (3-col) → each Column → pricing-tables → one pricing-table
   "module": {
     "decoration": {"background": {"desktop": {"value": {"color": "#1877f2"}}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -221,7 +221,7 @@ Auto-builds a linked list from the headings of the current post. Self-closing. *
     }
   },
   "emptyState": {"innerContent": {"desktop": {"value": "No headings found in this post."}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 | Field | Path | Notes |
@@ -252,7 +252,7 @@ Displays an Instagram account's recent posts in a grid. Self-closing. Requires a
     "advanced": {"config": {"desktop": {"value": {"lightbox": "on"}}}}
   },
   "followButton": {"advanced": {"show": {"desktop": {"value": "on"}}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 | Field | Path | Notes |
@@ -283,4 +283,4 @@ Blog, portfolio family, post* family, menu, search, login, sidebar, comments, ma
 
 ---
 
-*DIVI5 Data Modules Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Data Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*

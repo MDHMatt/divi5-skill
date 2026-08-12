@@ -109,7 +109,7 @@ Scan your markup: every `color`, `size`, `gradient`, padding/margin/gap/radius v
 {
   "modulePreset": "dark-heading",
   "title": {"innerContent": {"desktop": {"value": "My Heading"}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 

@@ -53,6 +53,15 @@ BASE + LAYOUT + STYLING + MODULES-CONTENT + WORDPRESS + PATTERNS
 
 > Full change history — including documentation corrections made within a version — is in [CHANGELOG.md](CHANGELOG.md).
 
+**V0.6.7 — Builder Version 5.10.1**
+
+Retarget to Divi 5.10.1 plus a corrected breakpoint model. 5.10.0/5.10.1 add no new authoring
+schema, so the substance is a fix to this documentation: **`phoneWide` was described as
+480–767px and used as the mobile breakpoint throughout, when 480–767px is `phone` and
+`phoneWide` ships disabled and emits no CSS at all.** Every responsive example written from
+those snippets silently lost its mobile rules; all ten now target `phone`, and §6 of
+DIVI5-BASE carries the render-verified ladder. See [CHANGELOG.md](CHANGELOG.md).
+
 **V0.6.6 — Builder Version 5.9.0**
 
 Correctness release (same Divi 5.9.0 authoring schema). Fixes two silently-failing rules that shipped in 0.6.5 and earlier: **`text-transform` is produced only by `capitalization`** (the legacy `style:["uppercase"]` stores cleanly and emits nothing), and **`htmlAttributes` puts the breakpoint outermost** — `htmlAttributes.desktop.value.{id, class}`, not `htmlAttributes.id.desktop.value`, which renders no `id` at all so in-page `#anchor` links go nowhere. Also settles rich-text escaping in one place (**raw HTML, never pre-escaped**), documents the native **Sizing → Alignment** control (`module.decoration.sizing.{bp}.value.alignSelf`) in place of the old `sizing.alignment` preset path, and corrects font-variable references to `{"type":"content"}`. Adds DESIGN-PROCESS §11b/§8c, CONNECT §5 (match a reference), PRESETS §1b, and an Adobe Typekit / non-Divi fonts section.

@@ -504,7 +504,7 @@ The `style[]` array now also accepts **`"overline"`** (alongside `"underline"`, 
   "phone": {"value": {"columnCount": "1"}}
 }
 ```
-`columnCount` only emits when **> 1** (`1` is treated as UI-only). `columnGap` of `0` is ignored. The rule (divider line between columns) only applies when `columnCount > 1`; default rule = `solid #333` if a width is set without style/color. **⚠️ Columns do NOT auto-stack on mobile** (render-confirmed — 2 columns stayed 2-up at 390px): set a responsive `columnCount:"1"` on `phone`/`phoneWide`, same as the grid rule.
+`columnCount` only emits when **> 1** (`1` is treated as UI-only). `columnGap` of `0` is ignored. The rule (divider line between columns) only applies when `columnCount > 1`; default rule = `solid #333` if a width is set without style/color. **⚠️ Columns do NOT auto-stack on mobile** (render-confirmed — 2 columns stayed 2-up at 390px): set a responsive `columnCount:"1"` on `phone` (⛔ **not** `phoneWide` — disabled by default, emits nothing; see DIVI5-BASE §6), same as the grid rule.
 
 ### Drop caps — dedicated `dropCap` group (NOT on `body.font`)
 Drop cap is its **own group** under `bodyFont`, rendered to the `::first-letter` pseudo. Putting `dropCapLineSize` on `body.font` is wrong — it then scales the **whole paragraph** (the giant-paragraph bug). Correct path:
@@ -1027,4 +1027,4 @@ def html_attr(attr_name, attr_value, label=''):
 
 ---
 
-*DIVI5 Styling Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Styling Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*

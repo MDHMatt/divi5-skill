@@ -12,13 +12,36 @@ author: Shashank Gupta @ divilove.com
 
 ---
 
-## 0. What's New in v0.6.0 (Divi 5.8.0 / 5.8.1)
+## 0. What's New in v0.6.7 (Divi 5.10.1)
+
+Targets **Divi 5.10.1** (08-09-2026). **5.10.0 and 5.10.1 added no new authoring schema** —
+reading their changelogs end to end, they are bug-fix and builder-UI releases. So the only
+`builderVersion` change is the stamp itself. What did change is that a long-standing error in
+*this document* was found and fixed:
+
+- 🚨 **THE BREAKPOINT TABLE WAS WRONG, AND THE EXAMPLES ACTED ON IT** → §6. `phoneWide` was
+  documented as 480–767px and used as "the mobile breakpoint" throughout LAYOUT, PATTERNS,
+  MODULES-MEDIA and MODULES-INTERACTIVE. In fact 480–767px is **`phone`**, and `phoneWide`
+  ships **disabled**, emitting **no CSS at all**. Every responsive example written from those
+  snippets silently lost its mobile rules. Render-verified on 5.10.1 — one heading, a different
+  font-size on each of five breakpoints, then read back which media queries the emitted
+  stylesheet actually contained: `desktop` (base rule), `tablet` (`max-width:980px`) and
+  `phone` (`max-width:767px`) each produced exactly one rule; **`phoneWide` and `tabletWide`
+  produced none.** All ten example uses now target `phone`.
+- **`builderVersion` bumped to `"5.10.1"`** (older values still import via backward-compat
+  migration; match the installed Divi version).
+
+⚠️ **Divi 5.10.0 changed the Visual Builder's internal breakpoint mins** (desktop 1025,
+tabletWide 981, tablet 861, phoneWide 768). Those are the widths that apply **once the extra
+breakpoints are enabled**; on a default site the emitted ladder is the three above.
+
+## 0a. What's New in v0.6.0 (Divi 5.8.0 / 5.8.1)
 
 Targets the current **Divi 5.8.x** line (latest **5.8.1**, 06-25-2026). Two real authoring additions landed since 5.7.4 (all **render-confirmed on 5.8.1**):
 
 - **Tooltip module (`divi/tooltip`):** a hover / click / always-on popover that attaches to its **parent module**; trigger, placement-grid, arrow, delays, follow-cursor → MODULES-INTERACTIVE. (Hover/click need the frontend script; `trigger:"always"` renders without JS.)
 - **Advanced Text Styling — every font group:** **variable fonts** (`weight:"variable"` + `weightFineTune` + `variationSettings` axis map + `opticalSizing`; any axis the font exposes — width, slant, grade, Roboto Flex parametric axes, Bitcount Element Shape/Expansion, …), **capitalization / small-caps**, **decoration-line styling** (`overline` + `lineColor`/`lineStyle`/`lineThickness`/`underlineOffset`), **text columns**, **drop caps** (the dedicated `bodyFont.dropCap` group → `::first-letter`), **vertical text direction** (`writingMode`), **line-wrap** (`textWrap`) + **hyphenation** (`hyphens`), and **paragraph/list spacing** (`bodyFont.body.list`) → STYLING §7e; plus **stroke position** → §7b.
-- **`builderVersion` bumped to `"5.9.0"`** (older values still import via backward-compat migration; match the installed Divi version).
+- **`builderVersion` bumped to `"5.10.1"`** (older values still import via backward-compat migration; match the installed Divi version).
 
 ### 0a. Earlier — v0.5.1 / v0.5.0 (Divi 5.7.x)
 
@@ -43,7 +66,7 @@ Built/confirmed against Divi **5.0.x**; this revision documents everything added
 
 1. **Every page content string is wrapped in `<!-- wp:divi/placeholder -->...<!-- /wp:divi/placeholder -->`.**
 2. **Hierarchy is always: Section → Row → Column → Module(s).** Never skip levels.
-3. **`builderVersion: "5.9.0"` must be on every single module** — section, row, column, and all content modules. (Match the installed Divi version; older values import via backward-compat but should be updated.)
+3. **`builderVersion: "5.10.1"` must be on every single module** — section, row, column, and all content modules. (Match the installed Divi version; older values import via backward-compat but should be updated.)
 4. **Self-closing modules** end with ` /-->` (space + slash): `<!-- wp:divi/heading {...} /-->`.
 5. **Container modules** (section, row, column, group, etc.) use open + close pairs.
 6. **Row flex layout is driven by `flexColumnStructure` + `layout.*.value.flexWrap`** — NOT by a `display: flex` property.
@@ -149,14 +172,38 @@ section, row, column, group, group-carousel, accordion, tabs, contact-form, coun
 
 ## 6. Responsive Breakpoints
 
-| Key | Screen Width |
-|-----|-------------|
-| `desktop` | ≥ 981px — **always required** |
-| `tablet` | 768–980px |
-| `phoneWide` | 480–767px |
-| `phone` | < 480px |
+🚨 **ONLY THREE BREAKPOINTS ARE ON BY DEFAULT. Styling any of the other four emits NOTHING
+— no error, no warning, just a rule that never reaches the page.**
 
-Always provide `desktop` values. Add other breakpoints only when behavior should differ.
+| Key | Default | Emits as | Use it? |
+|-----|---------|----------|---------|
+| `desktop` | **on** (base) | no media query at all | **always required** |
+| `tablet` | **on** | `max-width: 980px` | yes |
+| `phone` | **on** | `max-width: 767px` | yes — this is the phone breakpoint |
+| `phoneWide` | **off** | `max-width: 860px` *if enabled* | ⛔ not unless the site enabled it |
+| `tabletWide` | **off** | `max-width: 1024px` *if enabled* | ⛔ not unless the site enabled it |
+| `widescreen` | **off** | `min-width: 1280px` *if enabled* | ⛔ not unless the site enabled it |
+| `ultraWide` | **off** | `min-width: 1440px` *if enabled* | ⛔ not unless the site enabled it |
+
+**⇒ For mobile styling use `phone`, not `phoneWide`.**
+
+🪤 **THIS DOC USED TO SAY `phoneWide` WAS 480–767px AND USED IT AS "THE MOBILE BREAKPOINT"
+THROUGHOUT. Both halves were wrong.** 480–767px is `phone`'s range, and `phoneWide` ships
+**disabled**, so every layout written from those examples silently lost its mobile rules.
+Measured on Divi **5.10.1** by building a page with a different font-size on each of the five
+breakpoints and reading which media queries the emitted stylesheet actually contained:
+`tabletWide` and `phoneWide` produced **no rule at all**, while desktop/tablet/phone each
+produced exactly one. Divi's own defaults agree — `Breakpoint::get_default_settings_values()`
+marks phoneWide, tabletWide, widescreen and ultraWide `'enable' => false`.
+
+⚠️ **A site CAN enable them** (Divi → breakpoint settings), and then the widths in the table
+apply and the ladder becomes phone ≤767 · phoneWide ≤860 · tablet ≤980 · tabletWide ≤1024 ·
+desktop ≥1025. **Do not assume it has.** If a layout genuinely needs one, confirm it is
+enabled on that site first — and remember `desktop` starts at 981px only while `tabletWide`
+is off.
+
+Always provide `desktop` values. Add other breakpoints only when behavior should differ, and
+values do **not** inherit upward — each breakpoint you style needs its own complete value.
 
 ---
 
@@ -172,7 +219,7 @@ This affects gallery images and any field where you might try to pass a list. Ar
 ❌ Nested object. ✅ Plain string (see Section 2).
 
 ### Missing `builderVersion`
-❌ Any module without `"builderVersion": "5.9.0"` will fail to render or import.
+❌ Any module without `"builderVersion": "5.10.1"` will fail to render or import.
 
 ### Row Flex Not Working
 ❌ Setting `display: flex` or `"display": "flex"` — ignored by Divi.
@@ -186,7 +233,7 @@ This affects gallery images and any field where you might try to pass a list. Ar
 The JSON after a block name **is** the attributes object. Put the attribute groups
 (`title`, `content`, `module`, `builderVersion`, ...) at the **top level** of the block JSON.
 ❌ `<!-- wp:divi/heading {"attrs":{"title":{...}}} /-->` -- module renders **EMPTY** (blank page).
-✅ `<!-- wp:divi/heading {"title":{...},"builderVersion":"5.9.0"} /-->`
+✅ `<!-- wp:divi/heading {"title":{...},"builderVersion": "5.10.1"} /-->`
 > `attrs` IS a real key in **preset** definitions (see PRESETS) -- do not carry it over. Module **blocks** never use an `attrs` wrapper.
 
 ### `divi/text` content key is `content` — NOT `body`, NOT `text`  (BLANK-PAGE CAUSE #2)
@@ -364,7 +411,7 @@ If `imageIcon.innerContent.desktop.value.src` is an empty string `""` (with `use
 - [ ] Every section → row → column chain is intact
 
 **Modules:**
-- [ ] Every module has `"builderVersion": "5.9.0"`
+- [ ] Every module has `"builderVersion": "5.10.1"`
 - [ ] Every container has matching close tag
 - [ ] Every self-closing ends with ` /-->`
 - [ ] `flexColumnStructure` count matches actual column count
@@ -413,4 +460,4 @@ deploy until every line passes.** A failure here means rework, not a warning.
 
 ---
 
-*DIVI5 Base Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Base Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*

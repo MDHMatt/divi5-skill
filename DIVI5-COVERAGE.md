@@ -229,7 +229,7 @@
 | Grid layout (`layout.display:"grid"`) | ✓ Confirmed | equal grid rendered (scenario 20). **Does NOT auto-stack on mobile — set responsive `gridColumnCount`.** |
 | Variable generators (Color Scale/Harmony/fluid) | ⚙ Source | produce ordinary tokens; reference syntax unchanged |
 | Form pseudo-class states (focus/checked/active) | ⚙ Source | (5.3.0) |
-| Responsive breakpoints (desktop, tablet, phoneWide, phone) | ✓ Confirmed | Values do not inherit across breakpoints |
+| Responsive breakpoints (desktop, tablet, phone) | ✓ Confirmed | Values do not inherit across breakpoints. ⛔ `phoneWide`/`tabletWide`/`widescreen`/`ultraWide` are **disabled by default and emit no CSS** — render-verified on 5.10.1, see DIVI5-BASE §6 |
 | HTML attributes (id, class, data-*) | ✓ Confirmed (real page) | `module.decoration.attributes` |
 | Admin label | ✓ Confirmed | `module.meta.adminLabel.desktop.value` |
 
@@ -302,4 +302,4 @@ Entire family verified against fixture products with real data (scenarios 29 pro
 
 ---
 
-*DIVI5 Coverage Map — V0.6.3 | Builder Version 5.9.0*
+*DIVI5 Coverage Map — V0.6.7 | Builder Version 5.10.1*

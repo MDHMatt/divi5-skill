@@ -17,7 +17,7 @@ Expandable FAQ items. `accordion` is **NOT self-closing**. `accordion-item` **IS
 ```json
 // accordion (parent — container):
 {
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // accordion-item (child — self-closing):
@@ -27,7 +27,7 @@ Expandable FAQ items. `accordion` is **NOT self-closing**. `accordion-item` **IS
   },
   "title":   {"innerContent": {"desktop": {"value": "Question text?"}}},
   "content": {"innerContent": {"desktop": {"value": "<p>Answer text.</p>"}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -50,7 +50,7 @@ Single expand/collapse toggle. **Self-closing.** Confirmed working.
 {
   "title":   {"innerContent": {"desktop": {"value": "Toggle Title"}}},
   "content": {"innerContent": {"desktop": {"value": "<p>Content here.</p>"}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -65,14 +65,14 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
 ```json
 // tabs (parent — container):
 {
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // tab (child — self-closing):
 {
   "title":   {"innerContent": {"desktop": {"value": "Tab Label"}}},
   "content": {"innerContent": {"desktop": {"value": "<p>Tab content.</p>"}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -102,7 +102,7 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
       }}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 
 // contact-field (child — self-closing):
@@ -112,7 +112,6 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
       "sizing": {
         "desktop":   {"value": {"flexType": "12_24"}},
         "tablet":    {"value": {"flexType": "24_24"}},
-        "phoneWide": {"value": {"flexType": "24_24"}},
         "phone":     {"value": {"flexType": "24_24"}}
       }
     }
@@ -125,7 +124,7 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
     },
     "innerContent": {"desktop": {"value": "Email Address"}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -149,7 +148,7 @@ Tabbed panels. `tabs` is **NOT self-closing**. `tab` **IS self-closing**. Confir
     },
     "innerContent": {"desktop": {"value": {"text": "Send Message"}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -247,7 +246,7 @@ Email subscription form. **Self-closing.**
       "color": "#94a3b8", "size": "16px", "textAlign": "center"
     }}}}}}
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -283,7 +282,7 @@ A flyout/dropdown panel that reveals nested modules on hover or click. Typically
       }}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 | `module.advanced.dropdown.*.value` | Values |
@@ -330,7 +329,7 @@ A small popover that attaches to a **parent module** and reveals rich-text conte
       "border":     {"desktop": {"value": {"radius": {"topLeft": "8px", "topRight": "8px", "bottomLeft": "8px", "bottomRight": "8px", "sync": "on"}}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -363,7 +362,7 @@ Styles an existing **Contact Form 7** form (the CF7 plugin must be installed and
 ```json
 {
   "form": {"advanced": {"formId": {"desktop": {"value": "123"}}}},
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 | Field | Path | Notes |
@@ -563,7 +562,7 @@ A canvas can serve as a modal/popup overlay. The popup lives inside a local canv
 
 ```json
 {
-  "builderVersion": "5.9.0",
+  "builderVersion": "5.10.1",
   "module": {
     "decoration": {
       "interactionTarget": "POPUP_TARGET_ID",
@@ -623,4 +622,4 @@ For a button-triggered popup instead of auto-show, use `trigger: "click"` on the
 
 ---
 
-*DIVI5 Interactive Modules Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Interactive Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*

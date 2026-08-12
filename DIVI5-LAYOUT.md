@@ -38,7 +38,7 @@ Top-level container. Every page needs at least one.
       }
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -61,15 +61,14 @@ Horizontal container inside a section. Defines column arrangement via the flex s
     "decoration": {
       "layout": {
         "desktop": {"value": {"flexWrap": "nowrap"}},
-        "phone": {"value": {"flexWrap": "wrap"}},
-        "phoneWide": {"value": {"flexWrap": "wrap"}}
+        "phone": {"value": {"flexWrap": "wrap"}}
       },
       "sizing": {
         "desktop": {"value": {"maxWidth": "1280px"}}
       }
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -107,13 +106,12 @@ Horizontal container inside a section. Defines column arrangement via the flex s
     "decoration": {
       "layout": {
         "desktop":   {"value": {"flexWrap": "nowrap", "alignItems": "center", "columnGap": "60px"}},
-        "phone":     {"value": {"flexWrap": "wrap", "flexDirection": "column-reverse"}},
-        "phoneWide": {"value": {"flexWrap": "wrap"}}
+        "phone":     {"value": {"flexWrap": "wrap", "flexDirection": "column-reverse"}}
       },
       "sizing": {"desktop": {"value": {"maxWidth": "1280px"}}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -131,12 +129,11 @@ A column inside a row. Contains content modules.
     "decoration": {
       "sizing": {
         "desktop":   {"value": {"flexType": "8_24"}},
-        "phone":     {"value": {"flexType": "24_24"}},
-        "phoneWide": {"value": {"flexType": "24_24"}}
+        "phone":     {"value": {"flexType": "24_24"}}
       }
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -216,7 +213,7 @@ All standard `module.decoration` properties work: `background`, `border` (includ
       }
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -241,12 +238,12 @@ Carousel of `divi/group` slides. Each child `group` is one slide. **Real-render 
 
 ```json
 {
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
 ```
-group-carousel {"builderVersion": "5.9.0"}
+group-carousel {"builderVersion": "5.10.1"}
   └── group (slide 1) — styled with decoration props
         └── modules...
   └── group (slide 2)
@@ -281,7 +278,7 @@ group-carousel {"builderVersion": "5.9.0"}
       "showDots": {"desktop": {"value": "on"}}
     }
   },
-  "builderVersion": "5.9.0"
+  "builderVersion": "5.10.1"
 }
 ```
 
@@ -395,7 +392,7 @@ Offset values also accept a **number variable** (`gvid-`) token so spans/lines s
 >   "phone":   {"value": {"gridColumnCount": "1"}}
 > }
 > ```
-> Only `display`/`gridColumnWidths`/gaps need to be on `desktop`; lower breakpoints just override `gridColumnCount`. `phoneWide` is optional (omitting it inherits from `tablet`'s wider value until `phone`).
+> Only `display`/`gridColumnWidths`/gaps need to be on `desktop`; lower breakpoints just override `gridColumnCount`. ⛔ **Do not reach for `phoneWide` here** — it is disabled by default and emits nothing (DIVI5-BASE §6), so `tablet`'s value simply holds until `phone`.
 
 **Render-confirmed (scenario 20 + page 76):** `display:"grid"` + responsive `gridColumnCount` + `rowGap`/`columnGap` on a `group` produced a clean equal-column grid that stacks 3→2→1 across breakpoints; per-item `aspectRatio` + image `fit` gave uniform cropped tiles.
 
@@ -406,7 +403,7 @@ Offset values also accept a **number variable** (`gvid-`) token so spans/lines s
 References a **saved global layout/module** so one edit updates every place it is used. The reference is the **`globalModule`** attribute holding the saved layout's WP post ID **as a string**:
 
 ```html
-<!-- wp:divi/global-layout {"globalModule":"123","builderVersion":"5.9.0"} -->
+<!-- wp:divi/global-layout {"globalModule":"123","builderVersion": "5.10.1"} -->
 <!-- /wp:divi/global-layout -->
 ```
 
@@ -495,8 +492,7 @@ def make_equal_row(col_count, children_list, max_width="1280px"):
             "decoration": {
                 "layout": {
                     "desktop":   {"value": {"flexWrap": "nowrap"}},
-                    "phone":     {"value": {"flexWrap": "wrap"}},
-                    "phoneWide": {"value": {"flexWrap": "wrap"}}
+                    "phone":     {"value": {"flexWrap": "wrap"}}
                 },
                 "sizing": {"desktop": {"value": {"maxWidth": max_width}}}
             }
@@ -508,8 +504,7 @@ def make_equal_row(col_count, children_list, max_width="1280px"):
         col_attrs = {
             "module": {"decoration": {"sizing": {
                 "desktop":   {"value": {"flexType": flex}},
-                "phone":     {"value": {"flexType": "24_24"}},
-                "phoneWide": {"value": {"flexType": "24_24"}}
+                "phone":     {"value": {"flexType": "24_24"}}
             }}},
             "builderVersion": BV
         }
@@ -519,4 +514,4 @@ def make_equal_row(col_count, children_list, max_width="1280px"):
 
 ---
 
-*DIVI5 Layout Skill — V0.6.3 | Builder Version 5.9.0 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Layout Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
