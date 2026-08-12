@@ -16,20 +16,14 @@ author: Shashank Gupta @ divilove.com
 
 Targets **Divi 5.10.1** (08-09-2026).
 
-🚧 **NOT YET DOCUMENTED — new in the 5.10 line, confirmed present but no reference written:**
+**New in the 5.10 line — and neither was announced in Divi's changelog:**
 
-- **`divi/post-filter` + `divi/post-filter-item`** — a front-end filter UI for the Loop
-  Builder (parent + child pair, like accordion/accordion-item). Filters a loop by taxonomy,
-  post field or **ACF/custom field**, so a listing can be narrowed by the visitor. The child
-  carries the filter configuration (`field`, `fields`, `fieldValueType`, `optionsMethod`,
-  `label`, `labelDateFormat`, `dynamic`); the parent carries the form chrome
-  (`field`/`option`/`checkbox`/`button` elements). Both are registered and return schemas on
-  a 5.10.1 site — confirm exact paths with `divi_get_module_schema` until this is written up.
-- **Tooltip module additions** in the 5.10 line — the module is covered in
-  MODULES-INTERACTIVE from 5.8.0, but the newer options are not.
-
-⛔ **Do not author either from guesswork.** Read the live schema first; this file has no
-verified examples for them yet.
+- ✅ **`divi/post-filter` + `divi/post-filter-item`** — a front-end filter form for a Loop
+  Builder loop. **Documented and render-verified** in MODULES-DYNAMIC, including filtering on
+  an **ACF / custom field** (`option: "custom_field:<meta_key>"`).
+- 🚧 **Tooltip module additions** — the module is covered in MODULES-INTERACTIVE from 5.8.0,
+  but whatever 5.10 added to it is **not yet documented**. ⛔ Read the live schema
+  (`divi_get_module_schema`) rather than authoring its newer options from guesswork.
 
 🪤 **AND A METHOD NOTE, BECAUSE IT COST A WRONG CLAIM:** this section first said "5.10.0 and
 5.10.1 added no new authoring schema", concluded from reading both changelogs end to end.
@@ -61,7 +55,7 @@ Targets the current **Divi 5.8.x** line (latest **5.8.1**, 06-25-2026). Two real
 
 - **Tooltip module (`divi/tooltip`):** a hover / click / always-on popover that attaches to its **parent module**; trigger, placement-grid, arrow, delays, follow-cursor → MODULES-INTERACTIVE. (Hover/click need the frontend script; `trigger:"always"` renders without JS.)
 - **Advanced Text Styling — every font group:** **variable fonts** (`weight:"variable"` + `weightFineTune` + `variationSettings` axis map + `opticalSizing`; any axis the font exposes — width, slant, grade, Roboto Flex parametric axes, Bitcount Element Shape/Expansion, …), **capitalization / small-caps**, **decoration-line styling** (`overline` + `lineColor`/`lineStyle`/`lineThickness`/`underlineOffset`), **text columns**, **drop caps** (the dedicated `bodyFont.dropCap` group → `::first-letter`), **vertical text direction** (`writingMode`), **line-wrap** (`textWrap`) + **hyphenation** (`hyphens`), and **paragraph/list spacing** (`bodyFont.body.list`) → STYLING §7e; plus **stroke position** → §7b.
-- **`builderVersion` bumped to `"5.10.1"`** (older values still import via backward-compat migration; match the installed Divi version).
+- **`builderVersion` bumped to `"5.9.0"`** at that release (now `"5.10.1"` — see §0 above).
 
 ### 0a. Earlier — v0.5.1 / v0.5.0 (Divi 5.7.x)
 

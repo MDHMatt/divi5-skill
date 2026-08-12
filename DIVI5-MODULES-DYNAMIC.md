@@ -516,6 +516,49 @@ A `divi/post-filter` (`targetLoop:"postsloop"`, one `select` child on `option:"c
 🔑 **The query parameter is `loop_filter-<loopId>[<option>]`** — useful for linking straight to
 a pre-filtered view, and for testing without a browser.
 
-⛔ **ACF specifically is NOT yet render-verified here** — the test site has no ACF plugin. The
-`customFieldKey` + `comparison` route is documented from the module's own schema; taxonomy
-filtering is the part proven end to end.
+### ✓ Filtering on an ACF / custom field — render-verified on 5.10.1
+
+🔑 **The `option` value for a custom field is `custom_field:<meta_key>`** — that prefix is the
+whole trick, and nothing in the UI labels tell you it. For an ACF text field named `city`:
+
+```json
+{
+  "label": {"innerContent": {"desktop": {"value": "City"}}},
+  "field": {"innerContent": {"desktop": {"value": {
+    "type": "select",
+    "option": "custom_field:city",
+    "customFieldKey": "city",
+    "comparison": "=",
+    "optionsMethod": "automatic"
+  }}}},
+  "builderVersion": "5.10.1"
+}
+```
+
+⚠️ Use the ACF field **name** (the meta key), not its label.
+
+**Verified against a site where the meta was known independently** — `city` = *London* on 3
+posts, *Paris* on 2, absent on the rest, read out of `postmeta` before building:
+
+| filter | expected | rendered |
+|---|---|---|
+| *(none)* | 8 published posts | **8** |
+| `London` | 3 | **3** |
+| `Paris` | 2 | **2** |
+| `Berlin` — nobody holds it | 0 | **0** |
+
+- **`optionsMethod:"automatic"` discovers meta values**, not just taxonomy terms: the select
+  offered *London* and *Paris* with nothing hand-listed.
+- The **Berlin row is the control.** A value nobody holds returning zero is what separates a
+  working query from a page quietly ignoring an unrecognised parameter and rendering
+  everything — which looks identical on the two rows above it.
+- Query parameter: `loop_filter-<loopId>[custom_field:city]=London`.
+
+🪤 **`placeholder` was ignored on a custom-field select** — the first option rendered as
+*"Select custom field:city"*, i.e. the raw option key, not the placeholder passed. Set the
+visible text through the `label` element and don't rely on `placeholder` here.
+
+⚖️ Verified with a **text** field and `comparison:"="`. Numeric comparisons
+(`fieldValueType:"number"` with `">="` / `"<="`) are documented from the schema but **not yet
+measured** — numeric meta comparison is a classic string-vs-number trap in WordPress, so
+prove it before relying on it.
