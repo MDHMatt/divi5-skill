@@ -599,3 +599,23 @@ loop_filter-<loopId>[number_divipost-filter-item-0_meta]=price
 the select-style `[custom_field:price]` parameter returned **1** row — neither the numeric
 nor the string answer, and briefly looked like proof that `comparison` was being ignored. The
 module was right; the request was wrong.
+
+📋 **Measured shapes, all on one page:**
+
+| control | rendered `name` | also accepted |
+|---|---|---|
+| taxonomy select | `[category]` | — |
+| custom-field select | `[select_<moduleId>]` | **`[custom_field:city]`** works too |
+| number / text | `[number_<moduleId>]` + `_compare` + `_meta` | — |
+
+So a custom-field **select** answers to both forms (both measured returning the same 3 rows),
+while a **number** field answers only to its own. Use the rendered name when in doubt.
+
+### ✓ Two controls on one form combine with AND
+
+A taxonomy select and an ACF select on the same `divi/post-filter`, `relation:"and"`:
+category alone **2**, city alone **3**, **both together 1**. Narrowing below either input is
+the check — a second control that is silently ignored returns the first one's count.
+
+⚠️ Two controls on the **same field** would collide on one parameter name; give each control
+its own field.
