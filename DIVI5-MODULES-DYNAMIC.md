@@ -350,6 +350,7 @@ Turns a repeatable element (`group`, `group-carousel`, `column`, and ~60 other m
 | `metaQuery` | custom-field meta query |
 
 - Pair with a **Pagination** module targeting the same loop (`loopId`).
+- Pair with a **Post Filter** to let visitors narrow the loop — see §Post Filter below.
 - `queryType:"post_types"` with `subTypes:[{"value":"product"}]` (Woo active) drives product loops — see MODULES-WOOCOMMERCE.
 - To tile the repeated items, put the loop element in a **grid** column/group (LAYOUT §5b) — the repeated copies become grid children.
 
@@ -430,3 +431,91 @@ Output of every module here depends on real WordPress content, so verify on a si
 ---
 
 *DIVI5 Dynamic Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+
+---
+
+## `divi/post-filter` + `divi/post-filter-item` — front-end filtering for a loop (NEW in Divi 5.10)
+
+A filter form a visitor uses to narrow a **Loop Builder** loop: by taxonomy, post field, or a
+**custom/ACF meta key**. Parent + child, like accordion/accordion-item.
+
+**Self-closing?** `divi/post-filter` **no** (it holds the items). `divi/post-filter-item` **yes**.
+
+⚠️ **Divi shipped this with no changelog entry.** It is real and it works — verified end to end
+on 5.10.1 (below) — but do not expect release notes to mention it.
+
+### How it binds to a loop — one string on each side
+
+The loop element carries an author-chosen id, and the filter names it. They must match exactly:
+
+```json
+"module": {"advanced": {"loop": {"desktop": {"value": {
+  "enable": "on", "loopId": "postsloop", "queryType": "post_types",
+  "subTypes": [{"value": "post"}], "postPerPage": "6"
+}}}}}
+```
+```json
+"module": {"advanced": {
+  "targetLoop": {"desktop": {"value": "postsloop"}},
+  "filters":    {"desktop": {"value": {"applyMode": "auto", "relation": "and"}}}
+}}
+```
+
+| `module.advanced` | Values |
+|---|---|
+| `targetLoop` | the loop's `loopId`. **No match = the form renders and controls nothing** |
+| `filters.applyMode` | `"auto"` (update as they choose) / `"submit"` (wait for the button) |
+| `filters.relation` | `"and"` (every filter must match) / `"or"` (any) |
+
+### Each control is one child
+
+```json
+{
+  "label": {"innerContent": {"desktop": {"value": "Category"}}},
+  "field": {"innerContent": {"desktop": {"value": {
+    "type": "select",
+    "option": "category",
+    "optionsMethod": "automatic",
+    "placeholder": "All categories"
+  }}}},
+  "builderVersion": "5.10.1"
+}
+```
+
+`field.innerContent.desktop.value.*`:
+
+| subName | Values |
+|---|---|
+| `type` | `"text"` · `"select"` · `"radio"` · `"checkbox"` · WooCommerce: `"product-range"` … |
+| `option` | what it filters — a taxonomy slug (`"category"`), author, or a custom field. **Choices depend on the target loop**, so read them from the site rather than guessing |
+| `fieldValueType` | for `type:"text"` — `"text"` · `"number"` · `"date"` · `"date-time"` · `"time"` |
+| `customFieldKey` | the **meta key** to filter on — this is the ACF / custom-field route |
+| `comparison` | `"="` `"!="` `">"` `">="` `"<"` `"<="` `"LIKE"` `"NOT LIKE"` `"IN"` … |
+| `optionsMethod` | `"automatic"` (discover values at render) / `"manual"` (you list them) |
+| `labelDateFormat`, `placeholder` | display only |
+
+Manual option lists live at `field.advanced.checkboxOptions` / `radioOptions` /
+`selectOptions`; sort choices at `field.advanced.orderbyEnabledOptions`.
+
+### ✓ Render-verified on Divi 5.10.1 — filter + loop, three states
+
+A `divi/post-filter` (`targetLoop:"postsloop"`, one `select` child on `option:"category"`,
+`optionsMethod:"automatic"`) above a `divi/group` loop over `post`, 6 per page:
+
+- **The control populated itself** from the site's real terms — `<select
+  name="loop_filter-postsloop[category]">` with *DiviSync Tests / Journal / Uncategorized*.
+  Nothing was hand-listed; `automatic` did it.
+- **The loop rendered 6 items**, each wrapped with `data-loop-item="N"` and
+  `data-loop-source="postsloop"` — the binding is visible in the markup, which is the quickest
+  way to confirm a filter is actually attached.
+- **Filtering works**: unfiltered **6** · `?loop_filter-postsloop[category]=divisync-tests`
+  → **2** (exactly the two posts in that term) · `…=journal` → **0** (that term has no posts).
+  A term with no posts returning zero rows is the control — it proves the query really ran
+  rather than the page ignoring the parameter.
+
+🔑 **The query parameter is `loop_filter-<loopId>[<option>]`** — useful for linking straight to
+a pre-filtered view, and for testing without a browser.
+
+⛔ **ACF specifically is NOT yet render-verified here** — the test site has no ACF plugin. The
+`customFieldKey` + `comparison` route is documented from the module's own schema; taxonomy
+filtering is the part proven end to end.
