@@ -30,12 +30,24 @@ shape this skill exists to prevent. **Ten example uses across LAYOUT, PATTERNS, 
 and MODULES-INTERACTIVE now target `phone`**, and §6 carries the measured ladder plus an
 explicit "only three are on by default" warning.
 
-**Render-verified on 5.10.1**, not reasoned from source: one heading with a different
-font-size on each of the five breakpoints, published, then the emitted stylesheet parsed to
-find the media query enclosing each value. `desktop` → base rule (no query), `tablet` →
-`max-width:980px`, `phone` → `max-width:767px`; **`phoneWide` and `tabletWide` → no rule at
-all.** The four that emitted are the control: identical attribute shape, so the two that
-vanished were dropped by Divi, not malformed by the probe.
+**Render-verified on 5.10.1 in BOTH states**, not reasoned from source. One heading carrying
+a different font-size per breakpoint, published, then the emitted stylesheet parsed to find
+the media query enclosing each value:
+
+| | defaults | all four enabled |
+|---|---|---|
+| `ultraWide` | — | `min-width:1440px` |
+| `widescreen` | — | `min-width:1280px` **and** `max-width:1439px` |
+| `desktop` | base rule | base rule |
+| `tabletWide` | **no rule** | `max-width:1024px` |
+| `tablet` | `max-width:980px` | `max-width:980px` |
+| `phoneWide` | **no rule** | `max-width:860px` |
+| `phone` | `max-width:767px` | `max-width:767px` |
+
+The ones that emitted are the control: identical attribute shape, so the two that vanished
+under defaults were dropped by Divi, not malformed by the probe. **The four optional
+breakpoints are real and work — they simply need enabling first**, so §6 now documents them
+as usable rather than banned, with the caveat that a default site has only three.
 
 🪤 Worth recording, since it nearly shipped: the first fix was a blind `phoneWide` → `phone`
 rename, which produced **duplicate JSON keys** — every one of those examples already had a

@@ -172,35 +172,46 @@ section, row, column, group, group-carousel, accordion, tabs, contact-form, coun
 
 ## 6. Responsive Breakpoints
 
-🚨 **ONLY THREE BREAKPOINTS ARE ON BY DEFAULT. Styling any of the other four emits NOTHING
-— no error, no warning, just a rule that never reaches the page.**
+Divi has **seven** breakpoints. **Three are on by default; the other four exist and work, but
+a site has to enable them first** — and until it does they emit **nothing at all**: no error,
+no warning, just a rule that never reaches the page.
 
-| Key | Default | Emits as | Use it? |
-|-----|---------|----------|---------|
-| `desktop` | **on** (base) | no media query at all | **always required** |
-| `tablet` | **on** | `max-width: 980px` | yes |
-| `phone` | **on** | `max-width: 767px` | yes — this is the phone breakpoint |
-| `phoneWide` | **off** | `max-width: 860px` *if enabled* | ⛔ not unless the site enabled it |
-| `tabletWide` | **off** | `max-width: 1024px` *if enabled* | ⛔ not unless the site enabled it |
-| `widescreen` | **off** | `min-width: 1280px` *if enabled* | ⛔ not unless the site enabled it |
-| `ultraWide` | **off** | `min-width: 1440px` *if enabled* | ⛔ not unless the site enabled it |
+| Key | Default | Emits as (render-verified, 5.10.1) |
+|-----|---------|-------------------------------------|
+| `ultraWide` | off | `min-width: 1440px` |
+| `widescreen` | off | `min-width: 1280px` **and** `max-width: 1439px` |
+| `desktop` | **on** (base) | no media query at all — the base rule |
+| `tabletWide` | off | `max-width: 1024px` |
+| `tablet` | **on** | `max-width: 980px` |
+| `phoneWide` | off | `max-width: 860px` |
+| `phone` | **on** | `max-width: 767px` |
 
-**⇒ For mobile styling use `phone`, not `phoneWide`.**
+**⇒ On a site that has not changed the defaults, use `desktop`, `tablet` and `phone`. For
+mobile that means `phone` — not `phoneWide`.**
+
+**⇒ If the site HAS enabled the others, use them freely** — all four were verified emitting
+correctly once enabled. Check with `GET /design-system` or ask, rather than assuming either
+way. Note `widescreen` is **bounded above** by `ultraWide`, so it is a band, not open-ended.
 
 🪤 **THIS DOC USED TO SAY `phoneWide` WAS 480–767px AND USED IT AS "THE MOBILE BREAKPOINT"
-THROUGHOUT. Both halves were wrong.** 480–767px is `phone`'s range, and `phoneWide` ships
-**disabled**, so every layout written from those examples silently lost its mobile rules.
-Measured on Divi **5.10.1** by building a page with a different font-size on each of the five
-breakpoints and reading which media queries the emitted stylesheet actually contained:
-`tabletWide` and `phoneWide` produced **no rule at all**, while desktop/tablet/phone each
-produced exactly one. Divi's own defaults agree — `Breakpoint::get_default_settings_values()`
-marks phoneWide, tabletWide, widescreen and ultraWide `'enable' => false`.
+THROUGHOUT. Both halves were wrong.** 480–767px is `phone`'s range, and since `phoneWide`
+ships disabled, every layout written from those examples silently lost its mobile rules.
 
-⚠️ **A site CAN enable them** (Divi → breakpoint settings), and then the widths in the table
-apply and the ladder becomes phone ≤767 · phoneWide ≤860 · tablet ≤980 · tabletWide ≤1024 ·
-desktop ≥1025. **Do not assume it has.** If a layout genuinely needs one, confirm it is
-enabled on that site first — and remember `desktop` starts at 981px only while `tabletWide`
-is off.
+**Measured, both ways, on Divi 5.10.1** — one heading carrying a different font-size on each
+breakpoint, published, then the emitted stylesheet parsed to find the media query enclosing
+each value:
+
+- **Defaults:** desktop/tablet/phone each produced exactly one rule; `phoneWide` and
+  `tabletWide` produced **none**. The three that emitted are the control — identical
+  attribute shape — so the missing two were dropped by Divi, not malformed by the probe.
+- **With all four enabled** (`et_divi_builder_breakpoints`): **all seven emitted**, at the
+  widths in the table above.
+
+Divi's own defaults agree: `Breakpoint::get_default_settings_values()` marks phoneWide,
+tabletWide, widescreen and ultraWide `'enable' => false`.
+
+⚠️ **`desktop` starts at 981px only while `tabletWide` is off.** Enable tabletWide and the
+base band begins at 1025px instead.
 
 Always provide `desktop` values. Add other breakpoints only when behavior should differ, and
 values do **not** inherit upward — each breakpoint you style needs its own complete value.
