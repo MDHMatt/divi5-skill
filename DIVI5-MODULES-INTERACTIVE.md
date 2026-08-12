@@ -299,6 +299,9 @@ A flyout/dropdown panel that reveals nested modules on hover or click. Typically
 
 ## `divi/tooltip` (NEW in 5.8.0 — ✓ render-confirmed on Divi 5.8.1)
 
+> ✅ **Works inside a Loop Builder loop (5.10).** Place a tooltip inside a looped element and it repeats once per item, with `loop_*` dynamic tokens resolving to that item. No new attributes — the module itself is unchanged. Render-verified on 5.10.1.
+
+
 A small popover that attaches to a **parent module** and reveals rich-text content on hover/click (or always). Slug `divi/tooltip`, class `et_pb_tooltip`. **Not self-closing** (it can also hold nested child modules after its body text).
 
 **How it attaches — this is the key rule:** the tooltip is a **child placed *inside* the module/container it annotates**. At render it reads its parent block's id and emits `data-et-tooltip-parent-id`, then positions itself relative to that parent. So nest it inside the section / row / column / group / module you want the tooltip to pop from — its *parent* block is the trigger target.

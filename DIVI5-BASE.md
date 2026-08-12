@@ -21,9 +21,12 @@ Targets **Divi 5.10.1** (08-09-2026).
 - ✅ **`divi/post-filter` + `divi/post-filter-item`** — a front-end filter form for a Loop
   Builder loop. **Documented and render-verified** in MODULES-DYNAMIC, including filtering on
   an **ACF / custom field** (`option: "custom_field:<meta_key>"`).
-- 🚧 **Tooltip module additions** — the module is covered in MODULES-INTERACTIVE from 5.8.0,
-  but whatever 5.10 added to it is **not yet documented**. ⛔ Read the live schema
-  (`divi_get_module_schema`) rather than authoring its newer options from guesswork.
+- ✅ **`divi/tooltip` now works inside a Loop Builder loop** — **no new attributes**, the
+  module is unchanged; what 5.10 added is that a tooltip placed inside a looped element
+  repeats with it. Render-verified on 5.10.1: a tooltip inside a 4-item loop rendered once
+  per item, each resolving its **own** item's content via `loop_*` tokens (a tooltip that
+  rendered once, or repeated the first item's text four times, would look fine at a glance —
+  so the check was per-item content, not mere presence). → MODULES-INTERACTIVE for its options.
 
 🪤 **AND A METHOD NOTE, BECAUSE IT COST A WRONG CLAIM:** this section first said "5.10.0 and
 5.10.1 added no new authoring schema", concluded from reading both changelogs end to end.
