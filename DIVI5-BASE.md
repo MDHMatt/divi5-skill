@@ -14,10 +14,30 @@ author: Shashank Gupta @ divilove.com
 
 ## 0. What's New in v0.6.7 (Divi 5.10.1)
 
-Targets **Divi 5.10.1** (08-09-2026). **5.10.0 and 5.10.1 added no new authoring schema** —
-reading their changelogs end to end, they are bug-fix and builder-UI releases. So the only
-`builderVersion` change is the stamp itself. What did change is that a long-standing error in
-*this document* was found and fixed:
+Targets **Divi 5.10.1** (08-09-2026).
+
+🚧 **NOT YET DOCUMENTED — new in the 5.10 line, confirmed present but no reference written:**
+
+- **`divi/post-filter` + `divi/post-filter-item`** — a front-end filter UI for the Loop
+  Builder (parent + child pair, like accordion/accordion-item). Filters a loop by taxonomy,
+  post field or **ACF/custom field**, so a listing can be narrowed by the visitor. The child
+  carries the filter configuration (`field`, `fields`, `fieldValueType`, `optionsMethod`,
+  `label`, `labelDateFormat`, `dynamic`); the parent carries the form chrome
+  (`field`/`option`/`checkbox`/`button` elements). Both are registered and return schemas on
+  a 5.10.1 site — confirm exact paths with `divi_get_module_schema` until this is written up.
+- **Tooltip module additions** in the 5.10 line — the module is covered in
+  MODULES-INTERACTIVE from 5.8.0, but the newer options are not.
+
+⛔ **Do not author either from guesswork.** Read the live schema first; this file has no
+verified examples for them yet.
+
+🪤 **AND A METHOD NOTE, BECAUSE IT COST A WRONG CLAIM:** this section first said "5.10.0 and
+5.10.1 added no new authoring schema", concluded from reading both changelogs end to end.
+That was wrong — **Divi shipped two whole new modules without a changelog line announcing
+them.** A release's changelog is not a reliable inventory of its authoring surface.
+⇒ **Diff `ModuleLibrary/` between versions**, do not read release notes and infer.
+
+What else changed in 0.6.7 is a long-standing error in *this document*:
 
 - 🚨 **THE BREAKPOINT TABLE WAS WRONG, AND THE EXAMPLES ACTED ON IT** → §6. `phoneWide` was
   documented as 480–767px and used as "the mobile breakpoint" throughout LAYOUT, PATTERNS,

@@ -11,9 +11,23 @@ are logged under **Unreleased** and ship within the current version without a bu
 
 ## [0.6.7] — 2026-08-12 · Divi Builder 5.10.1
 
-**Retarget to Divi 5.10.1 + a corrected breakpoint model.** Divi 5.10.0 and 5.10.1 add **no
-new authoring schema** (both are bug-fix / builder-UI releases, read end to end), so the
-version move is a stamp change. The substance of this release is a defect in our own docs.
+**Retarget to Divi 5.10.1 + a corrected breakpoint model.**
+
+### Known gap — two new modules confirmed present, not yet documented
+
+Divi 5.10 ships **`divi/post-filter`** and **`divi/post-filter-item`**: a front-end filter UI
+for the Loop Builder, able to filter on taxonomy, post fields or **ACF/custom fields**. Both
+are registered and return schemas on 5.10.1. No reference is written yet — `divi_get_module_schema`
+is the source until one is. The **Tooltip** module also gained options in this line that
+MODULES-INTERACTIVE does not cover.
+
+🪤 **This entry originally claimed 5.10 added "no new authoring schema", concluded from
+reading both changelogs end to end. That was wrong: Divi shipped two whole modules with no
+changelog line announcing them.** A changelog is not an inventory of the authoring surface —
+diff `ModuleLibrary/` between versions instead. Recorded because the same shortcut would
+have missed them again next release.
+
+The substance of what this release *does* fix is a defect in our own docs.
 
 ### Fixed — the breakpoint table was wrong, and every responsive example acted on it
 
