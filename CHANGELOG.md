@@ -13,6 +13,18 @@ are logged under **Unreleased** and ship within the current version without a bu
 
 **Retarget to Divi 5.10.1 + a corrected breakpoint model.**
 
+### Fixed — folded in before release, 2026-08-21
+
+- **`divi/menu` without `menuId` does NOT render an empty bar** — this reference claimed it
+  did. Measured on a live site: the front end falls back to **listing every published page**
+  (a 446-link nav on a page-heavy site), while the Visual Builder can still preview a menu,
+  so builder and live page disagree and the symptom reads as "my menu isn't showing". Also
+  stated now: the module does **not** follow Appearance → Menus theme locations — only its
+  own `menuId` counts. Found because exactly this cost a real debugging session.
+- **SKILL.md's pre-escape pitfall showed two identical examples** — the ❌ and ✅ were the
+  same string, so the rule demonstrated nothing. The ❌ now shows the escaped form
+  (`&lt;p&gt;…`) the rule warns against.
+
 ### Known gap — two new modules confirmed present, not yet documented
 
 Divi 5.10 ships **`divi/post-filter`** and **`divi/post-filter-item`**: a front-end filter UI
