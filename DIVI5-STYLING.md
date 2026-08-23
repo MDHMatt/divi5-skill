@@ -581,6 +581,50 @@ Absolute-position an element (badge, sticker, overlay) via `module.decoration.po
 
 ---
 
+## 7f. Filters — including `backdrop-filter` (NEW in 5.11.0 — ✓ render-confirmed)
+
+The Filters group sits at `module.decoration.filters.{bp}.value.{key}` and produces two
+different CSS properties, which is the thing to get right:
+
+| key | CSS property | note |
+|---|---|---|
+| `blur` `brightness` `contrast` `saturate` `hueRotate` `invert` `sepia` `opacity` | `filter:` | applied to **the element itself** — its text and children blur too |
+| **`backdropBlur`** **`backdropInvert`** **`backdropSepia`** | `backdrop-filter:` | applied to **what is BEHIND the element** — the frosted-glass navbar |
+| `blendMode` | `mix-blend-mode:` | |
+
+🆕 **The three `backdrop*` keys are new in Divi 5.11.0.** Before that the Filters group was
+`filter:` only and a translucent navbar needed the Custom CSS hatch (§9b). It no longer does.
+
+```json
+"module": {"decoration": {"filters": {"desktop": {"value": {
+  "backdropBlur": "9px",
+  "backdropSepia": "60%"
+}}}}}
+```
+
+🔑 **Divi emits the `-webkit-` twin for you** — measured, both `backdrop-filter` and
+`-webkit-backdrop-filter` appear, so Safari is covered without a Custom CSS duplicate.
+
+🔑 **Several backdrop keys COMPOSE into one property**, in the order Divi defines rather than
+the order you write them: `backdropBlur` + `backdropSepia` render as a single
+`backdrop-filter: blur(4px) sepia(60%)`. They do not overwrite each other.
+
+⛔ **`blur` and `backdropBlur` are different properties, not a spelling choice.** `blur` frosts
+the module's own content — text included, which is almost never wanted on a navbar.
+`backdropBlur` frosts what shows through it. Reaching for the wrong one produces a page that
+looks broken in a way no error reports.
+
+⚠️ **`backdrop-filter` needs something translucent to act on.** With an opaque background the
+rule is emitted and nothing changes — the "it saved and nothing happened" shape. Pair it with a
+background colour carrying alpha (e.g. `rgba(255,255,255,0.6)`).
+
+> Render-confirmed on Divi **5.11.1**: `backdropBlur:"9px"` emitted
+> `backdrop-filter: … blur(9px)` plus the `-webkit-` twin; blur + sepia composed into one
+> declaration; the pre-5.11 `blur` key still emitted an element `filter: blur(7px)`; and a
+> control page with no backdrop keys emitted no `backdrop-filter` at all.
+
+---
+
 ## 8. Z-Index
 
 ```json
@@ -617,10 +661,20 @@ not responsive.
 
 ## 9b. Custom CSS — the escape hatch, and the two things that make it silently fail
 
-For the handful of real CSS properties Divi has **no control for**. `backdrop-filter` is the
-motivating one: a floating translucent navbar cannot be built without it. Divi has no
-backdrop-filter option (its Filters group is `filter:`, applied to the element itself), but the
-property IS on the allowlist that sanitises the Custom CSS field, so it goes there.
+For the handful of real CSS properties Divi has **no control for**.
+
+🚨 **`backdrop-filter` USED TO BE THE MOTIVATING EXAMPLE HERE. AS OF DIVI 5.11 IT IS NOT —
+there is a native control, and you should use it instead of this escape hatch.** Everything
+below about `css` remains correct for genuinely uncontrolled properties; only the example
+changed. See §7f for the native keys.
+
+Reaching for Custom CSS when a real control exists is worse than a missing feature: the value
+lands in a free-text field the Visual Builder cannot present as a control, so the customer
+cannot see it, change it, or bind it to a variable — and nothing tells them why.
+
+⚠️ Prior to 5.11 the advice was correct: the Filters group was `filter:` only, applied to the
+element itself, and `backdrop-filter` reached the page only through the Custom CSS allowlist.
+Pages built that way still work. New work should use §7f.
 
 🚨 **THE PATH IS NOT WHERE YOU WOULD LOOK. Two things trip people up at once:**
 
@@ -1027,4 +1081,4 @@ def html_attr(attr_name, attr_value, label=''):
 
 ---
 
-*DIVI5 Styling Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Styling Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*

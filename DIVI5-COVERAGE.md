@@ -6,6 +6,47 @@
 
 ---
 
+## New in v0.6.8 (Divi 5.11.0 / 5.11.1) — ✓ render-confirmed (Divi 5.11.1)
+
+> Divi 5.11.0 added **four modules** and **three filter keys**. 5.11.1 was bug-fix only for
+> authoring purposes: diffing every module's `module.json` between 5.10.1 and 5.11.1 found
+> exactly **one** changed attribute path across all 86 shared modules, and it is a styleProps
+> selector fix on `contact-field`, not an authoring surface.
+>
+> 🔑 **Found by diffing `ModuleLibrary/`, then confirmed against the changelog — in that
+> order.** On this release the changelog was honest and named all four. That is worth
+> recording precisely because 5.10 shipped `divi/post-filter` and `divi/post-filter-item` and
+> announced neither: the diff is the instrument, the changelog is the cross-check.
+
+| Item | Status | Type | File |
+|------|--------|------|------|
+| `divi/charts` — Chart.js chart, data as a table (header row first) | ✓ Confirmed | module | MODULES-DATA |
+| `divi/gravity-forms` — renders a Gravity Forms form, large styling surface | ✓ Confirmed | module | MODULES-INTERACTIVE |
+| `divi/imagely-gallery` — NextGEN gallery; key is `galleryId`, not `item` | ✓ Confirmed | module | MODULES-MEDIA |
+| `divi/payment-button` — provider checkout button; `environment` defaults to `"sandbox"` | ✓ Confirmed | module | MODULES-CONTENT |
+| Native `backdrop-filter` — `filters.{bp}.value.backdropBlur` / `backdropInvert` / `backdropSepia` | ✓ Confirmed | system | STYLING §7f |
+
+> Render-confirmed on Divi **5.11.1** (`diviconnect-test.local`): all four module wrappers
+> appeared in the served HTML, each on a page carrying a control `divi/text` that also
+> rendered — so "the module is missing" could never be a symptom of the page having failed.
+> Charts and Payment Button additionally rendered their own content. **Gravity Forms and
+> Imagely were NOT content-asserted**: their output comes from a third-party plugin that was
+> not installed, and inventing an expected string would have been asserting a guess.
+>
+> 🚨 **STYLING §9b CHANGED, AND OLD ADVICE BECAME WRONG.** It taught that Divi has no
+> backdrop-filter control and routed authors to the Custom CSS hatch. True through 5.10;
+> false from 5.11. Measured: `backdropBlur:"9px"` emits `backdrop-filter: … blur(9px)` **and**
+> the `-webkit-` twin, several backdrop keys **compose into one declaration** rather than
+> overwriting, the pre-5.11 `blur` key still emits an element `filter:`, and a control page
+> with no backdrop keys emits no `backdrop-filter` at all.
+>
+> ⚠️ **Three of the four new modules depend on a third-party plugin** (Gravity Forms, NextGEN,
+> a payment provider). Without it each one saves cleanly, returns HTTP 200, and renders an
+> empty wrapper — the "plausible page" failure. Every entry says so, because a response code
+> is not evidence a module worked.
+
+---
+
 ## New in v0.6.3 (Divi 5.9.0) — ✓ render-confirmed (Divi 5.9.0)
 
 > Divi 5.9.0 added **no new modules** (same 84 as 5.8.x) and no schema breaks. Its one new authoring surface is the **Grid Editor**: container-driven per-item placement via `gridOffsetRules` on a `display:"grid"` container.
@@ -302,4 +343,4 @@ Entire family verified against fixture products with real data (scenarios 29 pro
 
 ---
 
-*DIVI5 Coverage Map — V0.6.7 | Builder Version 5.10.1*
+*DIVI5 Coverage Map — V0.6.8 | Builder Version 5.11.1*

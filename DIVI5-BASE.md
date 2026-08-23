@@ -12,9 +12,42 @@ author: Shashank Gupta @ divilove.com
 
 ---
 
-## 0. What's New in v0.6.7 (Divi 5.10.1)
+## 0. What's New in v0.6.8 (Divi 5.11.1)
 
-Targets **Divi 5.10.1** (08-09-2026).
+Targets **Divi 5.11.1** (08-19-2026). Examples now stamp `"builderVersion": "5.11.1"`.
+
+**Four new modules in 5.11.0**, each documented and render-verified on 5.11.1:
+
+- ✅ **`divi/charts`** — a Chart.js chart. Data is a **table with the header row first**; the
+  title is drawn inside the canvas by Chart.js, so it is not a real heading. → MODULES-DATA
+- ✅ **`divi/gravity-forms`** — renders a Gravity Forms form with a very large Divi styling
+  surface (18 styleable elements). ⛔ Its path is **not** the CF7 one. → MODULES-INTERACTIVE
+- ✅ **`divi/imagely-gallery`** — a NextGEN gallery. 🪤 The value key is **`galleryId`**, not
+  the `item` you get from reading the field definition. → MODULES-MEDIA
+- ✅ **`divi/payment-button`** — a provider checkout button with `divi/button`'s whole design
+  surface. 🚨 **`environment` defaults to `"sandbox"`** — a live button must say so
+  explicitly, and nothing on screen reveals that it did not. → MODULES-CONTENT
+
+⚠️ **Three of the four need a third-party plugin** (Gravity Forms, NextGEN, a payment
+provider). Without it the module saves, the page returns **HTTP 200**, and the wrapper renders
+empty. A response code is not evidence a module worked — read the output.
+
+🚨 **AND ONE PIECE OF OLD ADVICE BECAME WRONG.** STYLING §9b taught that Divi has no
+`backdrop-filter` control and sent authors to the Custom CSS escape hatch. That was true
+through 5.10. **5.11 added `backdropBlur` / `backdropInvert` / `backdropSepia` to the Filters
+group** — see the new STYLING §7f. Divi emits the `-webkit-` twin for you and composes several
+backdrop keys into one declaration. Using Custom CSS for this now produces a value the Visual
+Builder cannot show as a control, so the customer can neither see it nor change it.
+
+🔑 **How this list was found: by diffing `ModuleLibrary/` between 5.10.1 and 5.11.1, then
+cross-checking the changelog — in that order.** This time the changelog named all four. The
+5.10 line, below, is why the diff is still the instrument.
+
+---
+
+## 0b. What's New in v0.6.7 (Divi 5.10.1)
+
+Targeted **Divi 5.10.1** (08-09-2026).
 
 **New in the 5.10 line — and neither was announced in Divi's changelog:**
 
@@ -83,7 +116,7 @@ Built/confirmed against Divi **5.0.x**; this revision documents everything added
 
 1. **Every page content string is wrapped in `<!-- wp:divi/placeholder -->...<!-- /wp:divi/placeholder -->`.**
 2. **Hierarchy is always: Section → Row → Column → Module(s).** Never skip levels.
-3. **`builderVersion: "5.10.1"` must be on every single module** — section, row, column, and all content modules. (Match the installed Divi version; older values import via backward-compat but should be updated.)
+3. **`builderVersion: "5.11.1"` must be on every single module** — section, row, column, and all content modules. (Match the installed Divi version; older values import via backward-compat but should be updated.)
 4. **Self-closing modules** end with ` /-->` (space + slash): `<!-- wp:divi/heading {...} /-->`.
 5. **Container modules** (section, row, column, group, etc.) use open + close pairs.
 6. **Row flex layout is driven by `flexColumnStructure` + `layout.*.value.flexWrap`** — NOT by a `display: flex` property.
@@ -247,7 +280,7 @@ This affects gallery images and any field where you might try to pass a list. Ar
 ❌ Nested object. ✅ Plain string (see Section 2).
 
 ### Missing `builderVersion`
-❌ Any module without `"builderVersion": "5.10.1"` will fail to render or import.
+❌ Any module without `"builderVersion": "5.11.1"` will fail to render or import.
 
 ### Row Flex Not Working
 ❌ Setting `display: flex` or `"display": "flex"` — ignored by Divi.
@@ -261,7 +294,7 @@ This affects gallery images and any field where you might try to pass a list. Ar
 The JSON after a block name **is** the attributes object. Put the attribute groups
 (`title`, `content`, `module`, `builderVersion`, ...) at the **top level** of the block JSON.
 ❌ `<!-- wp:divi/heading {"attrs":{"title":{...}}} /-->` -- module renders **EMPTY** (blank page).
-✅ `<!-- wp:divi/heading {"title":{...},"builderVersion": "5.10.1"} /-->`
+✅ `<!-- wp:divi/heading {"title":{...},"builderVersion": "5.11.1"} /-->`
 > `attrs` IS a real key in **preset** definitions (see PRESETS) -- do not carry it over. Module **blocks** never use an `attrs` wrapper.
 
 ### `divi/text` content key is `content` — NOT `body`, NOT `text`  (BLANK-PAGE CAUSE #2)
@@ -439,7 +472,7 @@ If `imageIcon.innerContent.desktop.value.src` is an empty string `""` (with `use
 - [ ] Every section → row → column chain is intact
 
 **Modules:**
-- [ ] Every module has `"builderVersion": "5.10.1"`
+- [ ] Every module has `"builderVersion": "5.11.1"`
 - [ ] Every container has matching close tag
 - [ ] Every self-closing ends with ` /-->`
 - [ ] `flexColumnStructure` count matches actual column count
@@ -488,4 +521,4 @@ deploy until every line passes.** A failure here means rework, not a warning.
 
 ---
 
-*DIVI5 Base Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Base Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*

@@ -36,7 +36,7 @@ Animated number counter. **Self-closing.**
       }}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -61,7 +61,7 @@ Circular progress indicator. **Self-closing.** Confirmed working.
       "color": "#e2e8f0", "textAlign": "center"
     }}}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -79,14 +79,14 @@ Horizontal progress bars. `counters` is **NOT self-closing**. `counter` **IS sel
   "barProgress": {
     "advanced": {"usePercentages": {"desktop": {"value": "on"}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 
 // counter (child — self-closing):
 {
   "title":       {"innerContent": {"desktop": {"value": "WordPress Development"}}},
   "barProgress": {"innerContent": {"desktop": {"value": "95"}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -125,7 +125,7 @@ Horizontal progress bars. `counters` is **NOT self-closing**. `counter` **IS sel
       }}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -166,7 +166,7 @@ Row (3-col) → each Column → pricing-tables → one pricing-table
       "layout": {"desktop": {"value": {"justifyContent": "center"}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 
 // network item (child — self-closing):
@@ -179,7 +179,7 @@ Row (3-col) → each Column → pricing-tables → one pricing-table
   "module": {
     "decoration": {"background": {"desktop": {"value": {"color": "#1877f2"}}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -221,7 +221,7 @@ Auto-builds a linked list from the headings of the current post. Self-closing. *
     }
   },
   "emptyState": {"innerContent": {"desktop": {"value": "No headings found in this post."}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 | Field | Path | Notes |
@@ -252,7 +252,7 @@ Displays an Instagram account's recent posts in a grid. Self-closing. Requires a
     "advanced": {"config": {"desktop": {"value": {"lightbox": "on"}}}}
   },
   "followButton": {"advanced": {"show": {"desktop": {"value": "on"}}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 | Field | Path | Notes |
@@ -262,6 +262,47 @@ Displays an Instagram account's recent posts in a grid. Self-closing. Requires a
 | Grid columns | `feed.decoration.layout.desktop.value.gridColumnCount` | grid layout (see LAYOUT §5b) |
 | Lightbox | `feed.advanced.config.desktop.value.lightbox` | `"on"` / `"off"` |
 | Follow button | `followButton.advanced.show.desktop.value` | `"on"` / `"off"` |
+
+---
+
+## `divi/charts` (NEW in 5.11.0 — ✓ render-confirmed)
+
+Chart.js-backed data chart. **Self-closing.** No third-party plugin — Chart.js ships with Divi.
+
+The data is a **table**, entered through Divi's `divi/table-editor` field, so the attribute is a
+list of rows with the header row first:
+
+```json
+{
+  "chart": {
+    "innerContent": {"desktop": {"value": {
+      "title": "Revenue by quarter",
+      "subtitle": "FY 2026",
+      "legendTitle": "Region",
+      "data": [["Quarter", "Revenue"], ["Q1", "120"], ["Q2", "180"]]
+    }}}
+  },
+  "builderVersion": "5.11.1"
+}
+```
+
+| What | Path (under `chart.innerContent.{bp}.value`) | Notes |
+|---|---|---|
+| Data | `data` | rows; **first row is the header**, min 2 columns |
+| Title | `title` | rendered by Chart.js, not as a Divi heading |
+| Subtitle | `subtitle` | |
+| Legend title | `legendTitle` | |
+
+⚠️ **The title is drawn by Chart.js inside the canvas, not emitted as a heading element.** It is
+not selectable text, it is not in the accessibility tree as a heading, and your font/heading
+presets do not style it. If the chart needs a real heading for structure or SEO, put a
+`divi/heading` above it and leave `title` empty.
+
+⛔ **A chart is a canvas.** Anything that depends on text being in the DOM — search, contrast
+grading, copy-paste — does not apply to what is inside it.
+
+> Render-confirmed on Divi **5.11.1**: `et_pb_charts` wrapper present and the title text
+> rendered, on a page whose control `divi/text` also rendered.
 
 ---
 
@@ -283,4 +324,4 @@ Blog, portfolio family, post* family, menu, search, login, sidebar, comments, ma
 
 ---
 
-*DIVI5 Data Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Data Modules Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*

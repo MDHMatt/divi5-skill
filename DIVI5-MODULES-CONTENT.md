@@ -38,7 +38,7 @@ Renders a standalone heading element. **Self-closing.**
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -77,7 +77,7 @@ Renders HTML content (paragraphs, lists, etc.). **Self-closing.**
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -109,7 +109,7 @@ Renders a styled CTA button. **Self-closing.**
     }
   },
   "module": {"advanced": {"alignment": {"desktop": {"value": "center"}}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -145,7 +145,7 @@ Displays an image. **Self-closing.**
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -224,7 +224,7 @@ rendered into `<div class="et_pb_blurb_description">`. Body styling →
     "decoration": {"bodyFont": {"body": {"font": {"desktop": {"value": {"color": "#475569", "textAlign": "center"}}}}}}
   },
   "module": {"decoration": {"background": {"desktop": {"value": {"color": "#FFFFFF"}}}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -237,7 +237,7 @@ rendered into `<div class="et_pb_blurb_description">`. Body styling →
   },
   "title": {"innerContent": {"desktop": {"value": {"text": "Fast"}}}},
   "content": {"innerContent": {"desktop": {"value": "<p>Blazing performance.</p>"}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -275,7 +275,7 @@ Title + body + button combined. **Self-closing.** Confirmed working.
       "font": {"font": {"desktop": {"value": {"color": "#2563eb", "weight": "700"}}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -324,7 +324,7 @@ Testimonial quote with author and optional portrait. **Self-closing.**
       }}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -348,7 +348,7 @@ Team member card with photo, name, position. **Self-closing.** (Tag is `divi/tea
     "innerContent": {"desktop": {"value": {"url": "https://example.com/photo.jpg"}}}
   },
   "content": {"innerContent": {"desktop": {"value": "<p>Bio text here.</p>"}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -378,7 +378,7 @@ A text hyperlink. **Self-closing.**
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -433,7 +433,7 @@ Use `module.advanced.loop` to loop a WordPress menu. Each item in the menu becom
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -519,7 +519,7 @@ Renders a single Divi icon. **Self-closing.** **Confirmed working (real-render t
       "size":  {"desktop": {"value": "48px"}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -542,7 +542,7 @@ Icon list. `icon-list` is **NOT self-closing**. `icon-list-item` **IS self-closi
 
 ```json
 // icon-list (parent — container):
-{"builderVersion": "5.10.1"}
+{"builderVersion": "5.11.1"}
 
 // icon-list-item (child — self-closing):
 {
@@ -558,7 +558,7 @@ Icon list. `icon-list` is **NOT self-closing**. `icon-list-item` **IS self-closi
   "content": {
     "innerContent": {"desktop": {"value": "List item text (plain string, not HTML)"}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -591,7 +591,7 @@ The divider draws its **own** line via `divider.advanced.line`, which is **`show
       "spacing": {"desktop": {"value": {"margin": {"top": "16px", "bottom": "16px"}}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -615,7 +615,7 @@ Renders raw HTML/CSS/JS. **Self-closing.**
       "zIndex": {"desktop": {"value": "-10"}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -654,7 +654,7 @@ Full-width hero header with title, subhead, content, and up to 2 buttons. **Self
       "background": {"desktop": {"value": {"color": "#0f172a"}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 
 // fullwidth-header (self-closing, goes directly inside the fullwidth section — no row/column):
@@ -689,7 +689,7 @@ Full-width hero header with title, subhead, content, and up to 2 buttons. **Self
   "buttonTwo": {
     "innerContent": {"desktop": {"value": {"text": "Secondary CTA", "linkUrl": "#"}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -719,7 +719,7 @@ Renders sanitized inline SVG, either from pasted markup or an uploaded `.svg` UR
       }}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -748,7 +748,7 @@ A vertical/horizontal timeline. **`timeline` is a container**; each `timeline-it
       "timeline": {"desktop": {"value": {"direction": "vertical", "position": "right"}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 | `module.advanced.timeline.*.value` | Values |
@@ -765,7 +765,7 @@ A vertical/horizontal timeline. **`timeline` is a container**; each `timeline-it
   "marker": {
     "decoration": {"icon": {"desktop": {"value": {"unicode": "&#xf00c;", "type": "fa", "weight": "900"}}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 | Field | Path | Notes |
@@ -793,7 +793,7 @@ Accessible breadcrumb trail using native WordPress hierarchy. Self-closing. **Pr
   "home":      {"innerContent": {"desktop": {"value": {"text": "Home", "url": ""}}}},
   "separator": {"innerContent": {"desktop": {"value": {"text": "/"}}}},
   "trail":     {"advanced": {"htmlTag": {"desktop": {"value": "nav"}}}},
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 | Field | Path | Notes |
@@ -808,4 +808,56 @@ Accessible breadcrumb trail using native WordPress hierarchy. Self-closing. **Pr
 
 ---
 
-*DIVI5 Content Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+## `divi/payment-button` (NEW in 5.11.0 — ✓ render-confirmed on Divi 5.11.1)
+
+A checkout button that hands off to a payment provider. It keeps `divi/button`'s whole design
+surface — same `button` element, same decoration groups — and adds payment settings alongside.
+**Self-closing.**
+
+```json
+{
+  "button": {"innerContent": {"desktop": {"value": {
+    "provider": "stripe",
+    "environment": "sandbox",
+    "amountMode": "fixed",
+    "amount": "49.00",
+    "currency": "USD",
+    "text": "Buy now",
+    "returnUrl": "/thank-you/",
+    "cancelUrl": "/pricing/"
+  }}}},
+  "builderVersion": "5.11.1"
+}
+```
+
+| Field | Path (under `button.innerContent.{bp}.value`) | Notes |
+|---|---|---|
+| Provider | `provider` | the payment provider |
+| Resource | `resourceId` | the account/resource that processes the payment |
+| Environment | `environment` | `"sandbox"` (default) or `"live"` |
+| Amount mode | `amountMode` | fixed, or entered by the buyer |
+| Amount | `amount` | string |
+| Currency | `currency` | |
+| Description | `description` | shown to the buyer at checkout |
+| Return URL | `returnUrl` | after a successful payment |
+| Cancel URL | `cancelUrl` | after an abandoned payment |
+| New tab | `openInNewTab` | toggle |
+
+🚨 **`environment` DEFAULTS TO `"sandbox"`.** A button built and left at the default takes no
+real money, and looks completely normal doing it. Anything going live needs
+`environment: "live"` set explicitly — and say so to whoever asked for the page, because this
+is the one setting whose wrong value is invisible until a customer tries to pay.
+
+⚠️ **Requires a configured provider.** Without one the button still renders — the wrapper and
+its label appear — and the checkout has nowhere to go.
+
+⛔ **Not a WooCommerce module.** It is a direct provider hand-off with no cart, no order record
+and no stock. If the site runs Woo, its own checkout is almost always the right answer; see
+DIVI5-MODULES-WOOCOMMERCE.md.
+
+> Render-confirmed on Divi **5.11.1**: `et_pb_payment_button` wrapper present and the button
+> label rendered, on a page whose control `divi/text` also rendered.
+
+---
+
+*DIVI5 Content Modules Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*

@@ -173,7 +173,7 @@ Row `layout` for an even / reversed row:
 ```
 `divi/image` block, exactly as the server emits it (src path = `image.innerContent.desktop.value.src`):
 ```json
-<!-- wp:divi/image {"image":{"innerContent":{"desktop":{"value":{"src":"URL","alt":"..."}}}},"module":{"decoration":{"border":{"desktop":{"value":{"radius":{"topLeft":"12px","topRight":"12px","bottomLeft":"12px","bottomRight":"12px","sync":"on"}}}}}},"builderVersion": "5.10.1"} /-->
+<!-- wp:divi/image {"image":{"innerContent":{"desktop":{"value":{"src":"URL","alt":"..."}}}},"module":{"decoration":{"border":{"desktop":{"value":{"radius":{"topLeft":"12px","topRight":"12px","bottomLeft":"12px","bottomRight":"12px","sync":"on"}}}}}},"builderVersion": "5.11.1"} /-->
 ```
 - Set `alignItems:center` on the row so the image and the text block line up vertically against each other.
 - **Tip (projects):** to match the look of a site's existing projects, `divi_duplicate_page` a reference project and edit the copy instead of building from scratch — see DIVI5-CONNECT "Create a Portfolio PROJECT".
@@ -203,7 +203,7 @@ Group attrs for a styled card:
       "layout": {"desktop": {"value": {"flexDirection":"column","alignItems":"flex-start"}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -211,7 +211,7 @@ Group attrs for a styled card:
 ```
 Row (1-col, max-width 900px)
   └── Column
-        └── group-carousel {"builderVersion": "5.10.1"}
+        └── group-carousel {"builderVersion": "5.11.1"}
               ├── Group (slide 1 — dark bg, border-radius, padding)
               │     └── text + attribution modules
               ├── Group (slide 2)
@@ -432,4 +432,4 @@ Live on divilove.com's Theme-Builder header; connector build helpers live in `di
 
 ---
 
-*DIVI5 Patterns Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+*DIVI5 Patterns Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*

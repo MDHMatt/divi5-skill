@@ -23,7 +23,7 @@ Embeds a video. **Self-closing.** Confirmed working.
       "desktop": {"value": {"src": "https://www.youtube.com/watch?v=XXXXX"}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -46,7 +46,7 @@ Image gallery grid. **Self-closing.**
       }
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -61,7 +61,7 @@ Image gallery grid. **Self-closing.**
 ```json
 // slider (parent — container):
 {
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 
 // slide (child — self-closing):
@@ -90,7 +90,7 @@ Image gallery grid. **Self-closing.**
       }}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -109,7 +109,7 @@ Image gallery grid. **Self-closing.**
 ```json
 // video-slider (parent — minimal attrs):
 {
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 
 // video-slider-item (child — self-closing):
@@ -117,7 +117,7 @@ Image gallery grid. **Self-closing.**
   "video": {
     "innerContent": {"desktop": {"value": {"src": "https://www.youtube.com/watch?v=XXXXX"}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -136,7 +136,7 @@ Lottie animation. **Self-closing.** Format confirmed — URL reliability is the 
   "lottie": {
     "innerContent": {"desktop": {"value": {"src": "https://example.com/animation.json"}}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -161,7 +161,7 @@ Audio player. **Self-closing.** Confirmed working including audio src.
   "audio": {
     "innerContent": {"desktop": {"value": "https://example.com/track.mp3"}}
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -191,7 +191,7 @@ Before/after comparison slider. **Self-closing.** Confirmed working.
       }}}}
     }
   },
-  "builderVersion": "5.10.1"
+  "builderVersion": "5.11.1"
 }
 ```
 
@@ -199,4 +199,40 @@ Before/after comparison slider. **Self-closing.** Confirmed working.
 
 ---
 
-*DIVI5 Media Modules Skill — V0.6.7 | Builder Version 5.10.1 | Created by Shashank Gupta @ divilove.com*
+## `divi/imagely-gallery` (NEW in 5.11.0 — ✓ render-confirmed on Divi 5.11.1)
+
+Renders a **NextGEN Gallery (Imagely)** gallery with Divi styling controls. The gallery is
+created in NextGEN and selected here by ID. **Self-closing.**
+
+```json
+{
+  "imagelyGallery": {"innerContent": {"desktop": {"value": {"galleryId": "1"}}}},
+  "builderVersion": "5.11.1"
+}
+```
+
+| Field | Path | Notes |
+|-------|------|-------|
+| Gallery | `imagelyGallery.innerContent.{bp}.value.galleryId` | the NextGEN gallery ID (string) |
+
+🪤 **The key is `galleryId`, even though Divi's own field is registered under the name `item`.**
+Reading the module definition and copying the field name gives you `item`, which stores
+cleanly and selects nothing. Use the `subName` — `galleryId` — which is what the value is
+actually keyed on.
+
+🎨 Styling elements it exposes: `image` · `title` · `description` · `counter` · `pagination` ·
+`navigationArrows` · `tagCloud` · `exifMetaData` · `slideshowLink`.
+
+⚠️ **Requires NextGEN Gallery.** Without it the module saves, the page returns 200, and no
+gallery appears — check the rendered output rather than the response.
+
+⛔ **Do not reach for this as a general gallery.** For images you manage in the WordPress media
+library, `divi/gallery` is the native module and needs no plugin.
+
+> Render-confirmed on Divi **5.11.1**: the `et_pb_imagely_gallery` wrapper rendered on a page
+> whose control `divi/text` also rendered. Gallery *contents* come from the plugin and were
+> not asserted — there was no NextGEN install to assert against.
+
+---
+
+*DIVI5 Media Modules Skill — V0.6.8 | Builder Version 5.11.1 | Created by Shashank Gupta @ divilove.com*
