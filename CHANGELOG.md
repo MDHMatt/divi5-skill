@@ -9,6 +9,57 @@ in [SKILL.md](SKILL.md)). The version is bumped only when the **authoring schema
 changes. Documentation corrections and clarifications that don't change the schema
 are logged under **Unreleased** and ship within the current version without a bump.
 
+## [0.6.8] — 2026-08-25 · Divi Builder 5.11.1
+
+**Divi 5.11's four new modules, and a native `backdrop-filter` control.**
+
+Divi 5.11.0 added four modules and three filter keys. Found by diffing `ModuleLibrary/`
+between 5.10.1 and 5.11.1, then cross-checking the changelog — in that order (5.10 shipped
+two modules and announced neither, so the diff stays the instrument). Every claim below is
+render-verified on Divi 5.11.1, each on a page carrying a control `divi/text` that also
+rendered, so "the module is missing" can never be a symptom of the page having failed.
+
+### Added
+
+- **`divi/charts`** (MODULES-DATA) — Chart.js. Data is a table with the **header row first**.
+  Its title is drawn inside the canvas, so it is not a real heading and heading presets do
+  not style it; put a `divi/heading` above it when the page needs structure.
+- **`divi/gravity-forms`** (MODULES-INTERACTIVE) — 18 styleable elements. The path is NOT
+  the CF7 one: `gravityForm.innerContent…formId`, not `form.advanced.formId`. The wrong
+  one stores cleanly and renders an empty form.
+- **`divi/imagely-gallery`** (MODULES-MEDIA) — the value key is `galleryId`, though Divi
+  registers the field under the name `item`. Copying the field name stores cleanly and
+  selects nothing.
+- **`divi/payment-button`** (MODULES-CONTENT) — keeps `divi/button`'s whole design surface.
+  **`environment` defaults to `"sandbox"`**: a button left at the default takes no real money
+  and looks completely normal doing it.
+- **STYLING §7f — the Filters group, properly.** Which keys emit `filter:` (the element
+  itself) versus `backdrop-filter` (what is behind it): `filters.{bp}.value.backdropBlur` /
+  `backdropInvert` / `backdropSepia`. Measured: Divi emits the `-webkit-` twin, several
+  backdrop keys compose into ONE declaration rather than overwriting, and a control page
+  with no backdrop keys emits none.
+- COVERAGE: "New in v0.6.8" table for all five items.
+
+### Changed
+
+- **STYLING §9b corrected.** It taught that Divi has no backdrop-filter control and routed
+  authors to the Custom CSS escape hatch. True through 5.10, false from 5.11. Teaching a
+  workaround for a control that exists is worse than a gap: the value lands in a free-text
+  field the Visual Builder cannot present, so the customer can neither see it nor change it.
+- `builderVersion` examples 5.10.1 → **5.11.1** (92 values, 14 footers). Historical
+  "render-verified on 5.10.1" lines are deliberately untouched — they record what was
+  tested against what.
+- Version footers → `V0.6.8 | Builder Version 5.11.1`; `skill-version.txt` 0.6.7 → 0.6.8.
+
+### Known limits
+
+- Three of the four new modules depend on a third-party plugin (Gravity Forms, NextGEN, a
+  payment provider). Without it each saves cleanly, returns HTTP 200 and renders an empty
+  wrapper — a response code is not evidence a module worked. Gravity Forms and Imagely were
+  wrapper-asserted only, not content-asserted, for exactly that reason.
+- `divi/post-filter` / `divi/post-filter-item` (added in 5.10) are still undocumented —
+  `divi_get_module_schema` remains the source.
+
 ## [0.6.7] — 2026-08-12 · Divi Builder 5.10.1
 
 **Retarget to Divi 5.10.1 + a corrected breakpoint model.**
