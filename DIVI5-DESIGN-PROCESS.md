@@ -423,6 +423,10 @@ tell the user it's done, close the loop:
    nudges — heading hierarchy (>1 H1 / skipped level), missing `alt`, generic CTA
    labels ("Learn more"), competing filled buttons in the hero, low text/background
    contrast, emoji-as-UI. **Treat each as a fix item, not noise.**
+   Also read the response's **`size_policy.summary`** and **tell the user what it says** —
+   it states which type scale the page ended up on (`exact` / `snap` / `presets`), and
+   under `presets` the sizes stated in the spec were *replaced* by the preset library's
+   steps. See the font-size gate in `DIVI5-CONNECT.md`: ask before building from a design.
 2. **Fetch the rendered result** with `divi_get_rendered_page` (pass `max_css_kb` /
    `max_html_kb` to keep the payload light) so you're checking the real HTML + CSS
    Divi produced, not your intent.

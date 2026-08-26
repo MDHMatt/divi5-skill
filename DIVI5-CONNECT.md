@@ -280,14 +280,42 @@ good as how precisely you read the reference. **Do not one-shot it from a glance
    `image` URLs, calls-to-action). This reads **layout + content, not styling** — colours/spacing/fonts are
    *not* copied (a server can't read computed styles). That's deliberate: you rebuild the layout in the
    **user's own tokens**, so it lands in their brand instead of cloning someone else's.
-3. **Only an image / screenshot / Figma export** → there is nothing to fetch; read it visually. Describe it as
-   the *same* structured shape `divi_import_reference` returns (sections → role → columns → modules) so the
-   build path is identical. Vision can't recover exact measurements, so treat sizes/colours as approximate and
-   lean on the design system.
+3. **A vector PDF or an export at a stated canvas width** (a Figma "Export as PDF", a 1440-wide PNG the user
+   tells you is 1440 wide) → still nothing to fetch, so read it visually — but **these carry exact type
+   sizes.** A PDF exported from Figma has real point sizes in it, and a screenshot whose canvas width you know
+   gives you a scale factor. Say what canvas width you are reading it at, and treat the sizes as **stated, not
+   guessed**. Then use the size gate below.
+4. **A photo of a screen, or an image with no known width** → read it visually and describe it as the *same*
+   structured shape `divi_import_reference` returns (sections → role → columns → modules) so the build path is
+   identical. Here vision genuinely can't recover measurements: treat sizes/colours as approximate and lean on
+   the design system.
 
-**The loop (all three inputs):** read the reference → **restate the structure you found and get the user's
-OK** (section order, what each section is, column counts) → `divi_get_design_system` → `divi_build_page` using
-*their* tokens/presets → `divi_get_rendered_page` and adjust. Confirming the interpretation up front is what
+#### ▸ Font-size gate — ASK before building from a design (then wait)
+A design drawn on a fixed canvas and a design system built on a **fluid** type scale cannot both be satisfied,
+and the difference is large: a heading a Figma frame states at 48px can arrive at **86px** if the site's
+preset library decides the size instead. So whenever the page comes from a reference **or** the user has
+stated sizes, ask **one** question and wait:
+
+> "Should I match your design's font sizes **exactly**, **round them to the nearest step** on your site's own
+> type scale, or let your **preset library's** type scale decide?"
+
+Then pass `size_policy` to `divi_build_page`:
+
+| answer | pass | what happens |
+|---|---|---|
+| "match my design" | `"size_policy": "exact"` | the sizes you send are written verbatim. Fixed px — they do **not** shrink on a phone. |
+| "keep my system, close enough" | `"size_policy": "snap"` | each size is rounded to the nearest step on their scale. Fluid, so it moves with screen width. |
+| "use my styles" / no answer | `"size_policy": "presets"` *(the default)* | the preset library's type scale wins and the sizes you sent are **discarded**. |
+
+⛔ **Never refuse to build over this.** If the user does not answer, build with the default — that is what the
+default is for. ✅ **Always tell them which one was used**: the response carries a `size_policy` object with a
+plain-English `summary`. Relay it. Under `presets` the response also names each size that was replaced, the
+step used instead and the range that step covers.
+
+**The loop (all four inputs):** read the reference → **restate the structure you found and get the user's
+OK** (section order, what each section is, column counts) → **ask the font-size question** →
+`divi_get_design_system` → `divi_build_page` using *their* tokens/presets (+ `size_policy`) →
+`divi_get_rendered_page` and adjust. Confirming the interpretation up front is what
 turns "that's nowhere close" into "that's it." Replace the reference's own image URLs with the user's assets.
 
 ### Create a real blog POST (not a page)
