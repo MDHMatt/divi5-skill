@@ -9,6 +9,53 @@ in [SKILL.md](SKILL.md)). The version is bumped only when the **authoring schema
 changes. Documentation corrections and clarifications that don't change the schema
 are logged under **Unreleased** and ship within the current version without a bump.
 
+## [0.6.9] — 2026-08-26 · Divi Builder 5.11.1
+
+**A design's font sizes are now a question the AI asks, not a guess.**
+
+No Divi schema change — 5.11.1 throughout. This is a correction to the reference ladder plus the
+workflow the correction makes possible, and it ships as a version bump because every copy
+downloaded at 0.6.8 or earlier teaches something false about what a design file carries.
+
+### Changed
+
+- **DIVI5-CONNECT §"Match a reference" — the ladder gains a fourth rung.** Rung 3 previously read
+  "only an image / screenshot / Figma export … vision can't recover exact measurements". That is
+  true of a photo of a screen and **false of a vector PDF exported from Figma**, which carries real
+  point sizes, and of **a screenshot whose canvas width the user states**, which gives a scale
+  factor. Those two are now rung 3, read at a canvas width you say out loud, with their sizes
+  treated as **stated, not guessed**; the genuinely unmeasurable case — a photo of a screen, or an
+  image with no known width — is rung 4 and still leans on the design system. The loop below the
+  ladder now covers all four inputs and includes the size question.
+- Version footers → `V0.6.9 | Builder Version 5.11.1`; `skill-version.txt` 0.6.8 → 0.6.9.
+  `builderVersion` examples are unchanged at 5.11.1, as is the authoring schema.
+
+### Added
+
+- **DIVI5-CONNECT — a font-size gate**, built in the shape of the post-creation gate below it: ask
+  **one** question, wait, then pass `size_policy` to `divi_build_page` — `"exact"` (the stated
+  sizes written verbatim, fixed px, so they do not shrink on a phone), `"snap"` (each rounded to
+  the nearest step on the site's own scale, fluid), or `"presets"` (the default — the preset
+  library's type scale wins and the sizes sent are **discarded**). A design drawn on a fixed canvas
+  and a fluid type scale cannot both be satisfied, and the difference is not small: a heading a
+  Figma frame states at 48px can arrive at **86px** if the preset library decides instead.
+  ⛔ **Never refuse to build over the question** — with no answer, build with the default, which is
+  what a default is for. ✅ **Always say which policy was used**: the response carries a
+  `size_policy` object with a plain-English `summary`, and under `presets` it also names each size
+  that was replaced, the step used instead, and the range that step covers.
+- **DIVI5-DESIGN-PROCESS §12 step 1** now names **`size_policy.summary`** alongside `warnings[]`.
+  A build can come back "success" having quietly discarded every size the design stated, so the
+  summary has to be read and relayed to the user, not just the warnings.
+
+### Known limits
+
+- `size_policy` is a `divi_build_page` parameter, so the gate governs the Divi Connect path only.
+  Hand-authored markup and the REST / WP-CLI import path state their own sizes and have nothing to
+  negotiate; the ladder correction applies to every path.
+- The fourth rung is a statement about what the *file* carries, not a promise about any particular
+  reader. Say the canvas width you are reading at, so the scale factor is on the record and the
+  user can correct it.
+
 ## [0.6.8] — 2026-08-25 · Divi Builder 5.11.1
 
 **Divi 5.11's four new modules, and a native `backdrop-filter` control.**
